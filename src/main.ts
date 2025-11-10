@@ -1,5 +1,8 @@
 import './style.css'
 import renderFrame, { drawBoid } from './render/boidRenderer';
+import type { Theme } from './interface/boid';
+import { Themes } from './geometry/themes';
+
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="main-content">
@@ -15,6 +18,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const canvas = document.getElementById('boidsCanvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
+
+const theme = Themes.diamond;
 
 // Adjust canvas size to fit its displayed size
 function fitCanvas() {
@@ -34,12 +39,6 @@ window.addEventListener('resize', () => {
 // One static boid at center, pointing right
 const center = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
 const vel = { x: 1, y: 0 }; // heading along +X
-
-const theme = {
-  fill: '#f5f5f7',
-  stroke: '#5ec8ff',
-  lineWidth: 5,
-};
 
 function update() {
   center.x += vel.x;

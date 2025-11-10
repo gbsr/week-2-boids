@@ -1,12 +1,18 @@
+import type { ShapeKey } from "../geometry/boidShapes"
 
 
 export interface Boid {
-  position: Vector
-  velocity: Vector
-  acceleration: Vector
+  position: Vec2
+  velocity: Vec2
+  acceleration: Vec2
   mass: number
 }
-export interface Vector {
-  x: number
-  y: number
+export interface Theme {
+  fill: string;
+  stroke: string;
+  lineWidth: number;
+  shape: ShapeKey;
 }
+
+export interface Vec2 { x: number; y: number; }
+

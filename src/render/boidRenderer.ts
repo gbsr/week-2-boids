@@ -1,13 +1,7 @@
 import type { ShapeSpec, ShapeKey } from '../geometry/boidShapes';
 import { SHAPES } from '../geometry/boidShapes';
+import type { Theme, Vec2 } from '../interface/boid'
 
-export interface Theme {
-  fill: string;
-  stroke: string;
-  lineWidth: number;
-}
-
-export interface Vec2 { x: number; y: number; }
 
 // cache for path shapes so we don’t rebuild each frame
 const pathCache = new WeakMap<ShapeSpec, Path2D>();
@@ -76,9 +70,9 @@ export function drawBoid(
 }
 
 
-export default function renderFrame(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, drawBoid: any, center: { x: number; y: number }, vel: { x: number; y: number }, theme: { fill: string; stroke: string; lineWidth: number; }) {
+export default function renderFrame(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, drawBoid: any, center: { x: number; y: number }, vel: { x: number; y: number }, theme: Theme) {
   ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
   // Try different shapes: 'triangle' | 'circle' | 'diamond'
-  drawBoid(ctx, center, vel, 'triangle', theme, 1);
+  drawBoid(ctx, center, vel, theme.shape, theme, 1);
 }
