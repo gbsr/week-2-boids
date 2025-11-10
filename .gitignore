@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 plan.md
+daily_plan.md
 
 # Editor directories and files
 .vscode/*
