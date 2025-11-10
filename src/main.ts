@@ -1,13 +1,14 @@
 import './style.css'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
     <div class="main-content">
+    <div class="aside">
+      <h1>Boids Simulation</h1>
+      <div class="controls"></div>
+    </div>
       <div class="canvasWrapper">
-        <div class="controls"></div>
         <canvas id="boidsCanvas"></canvas>
       </div>
     </div>
-  </div>
 `
 

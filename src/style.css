@@ -1,0 +1,55 @@
+:root {
+  --background-color: #0e0e11;
+  --text-color: #f5f5f7;
+  --aside-background: #1c1c22;
+  --canvas-background: #141418;
+  --accent-color: #5ec8ff;
+  --accent-color-alt: #ff6b6b;
+  --border-color: #2a2a32;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.main-content {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: stretch;
+  height: 100%;
+  width: 100%;
+}
+
+.canvasWrapper {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  background: var(--canvas-background);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  width: auto;
+  height: 100%;
+}
+
+.aside {
+  flex: 0 0 320px;
+  height: 100%;
+  background-color: var(--aside-background);
+  padding: 15px;
+  text-align: center;
+}
+
+#boidsCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
