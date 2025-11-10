@@ -1,6 +1,5 @@
 import './style.css'
 import renderFrame, { drawBoid } from './render/boidRenderer';
-import type { Theme } from './interface/boid';
 import { Themes } from './geometry/themes';
 
 
