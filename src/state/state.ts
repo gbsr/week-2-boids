@@ -34,6 +34,7 @@ export const state = {
     cohesionRadiusAlpha: 0.2,
 
     visualizeAlignmentRadius: true,
+    visualizeAlignmentToNeighbors: true,
     alignmentRadius: 50,
     alignmentRadiusColor: '#ffff00',
     alignmentRadiusLineWidth: 1,

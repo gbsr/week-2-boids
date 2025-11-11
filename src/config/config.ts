@@ -7,12 +7,12 @@ export const canvasConfig = {
 }
 
 export const boidConfig = {
-  boidCount: 100,
+  boidCount: 10,
   perceptionRadius: 50,
   separationWeight: 1.5,
   alignmentWeight: 1.0,
   cohesionWeight: 1.0,
-  maxSpeed: 0.35,
+  maxSpeed: 0.5,
   maxForce: 0.1,
   wrapEdges: true,
   // Visual theme.
@@ -31,10 +31,12 @@ export const boidConfig = {
   cohesionRadiusAlpha: 0.2,
 
   visualizeAlignmentRadius: true,
-  alignmentRadius: 50,
-  alignmentRadiusColor: '#ffff00',
+  visualizeAlignmentToNeighbors: true,
+  alignmentRadius: 75,
+  // alignmentRadiusColor: '#ffff00',
+  alignmentRadiusColor: '7fe29c',
   alignmentRadiusLineWidth: 1,
-  alignmentRadiusAlpha: 0.2,
+  alignmentRadiusAlpha: 0.35,
   
   visualizeSeparationRadius: false,
   separationRadius: 25,

@@ -3,6 +3,7 @@ import { SHAPES } from '../geometry/boidShapes';
 import type { Theme, Vec2 } from '../interface/boid'
 import { state } from '../state/state'
 import alignmentRule from '../system/rules/alignment'
+import { gatherNeighbors } from '../utils/neighbor'
 
 
 // cache for path shapes so we don’t rebuild each frame
@@ -86,6 +87,8 @@ export default function renderFrame(ctx: CanvasRenderingContext2D,
   const velX = state.arrays.velocity.x;
   const velY = state.arrays.velocity.y;
 
+  const neighbors: Array<{ x: number; y: number }> = [];
+
   for (let i = 0; i < posX.length; i++) {
 
     drawBoid(
@@ -97,17 +100,12 @@ export default function renderFrame(ctx: CanvasRenderingContext2D,
       size
     );
   
-    // visualize alignment radius
-    if (state.params.visualizeAlignmentRadius) {
-      const neighbors: Array<{ position: { x: number; y: number } }> = [];
-      alignmentRule(
-        { position: { x: posX[i], y: posY[i] } },
-        neighbors,
-        ctx
-      );
+    // overlays (circle and/or lines), if neighbor is inside alignment radius
+    if (state.params.visualizeAlignmentRadius || state.params.visualizeAlignmentToNeighbors) {
+      const radius = state.params.alignmentRadius;
+
+      gatherNeighbors(i, { x: posX, y: posY }, 2 * radius, neighbors);
+      alignmentRule({ x: posX[i], y: posY[i] }, neighbors, ctx);
     }
-
-
-    
   }
 }
