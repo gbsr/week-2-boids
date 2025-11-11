@@ -76,3 +76,24 @@ export function vec2distanceSq(a: { x: number; y: number }, b: { x: number; y: n
 export function vec2lerp(a: { x: number; y: number }, b: { x: number; y: number }, t: number) {
   return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
 }
+
+// Color utilities
+export function hexToRgba(hex: string, alpha = 1): string {
+  // Normalize and strip leading "#"
+  const clean = hex.replace('#', '');
+  const bigint = parseInt(clean, 16);
+
+  if (clean.length === 3) {
+    // Shorthand form "#f0a" -> "#ff00aa"
+    const r = parseInt(clean[0] + clean[0], 16);
+    const g = parseInt(clean[1] + clean[1], 16);
+    const b = parseInt(clean[2] + clean[2], 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  // Normal 6-digit hex
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}

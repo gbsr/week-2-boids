@@ -1,3 +1,5 @@
+import type { Themes } from "../geometry/themes"
+
 export type FSMState = 'idle' | 'running' | 'paused' | 'stepping' | 'dragging'
 export type MouseMode = 'attract' | 'repel' | 'curious'
 
@@ -18,6 +20,30 @@ export const state = {
     dtMs: 16,
     seed: 42,
     needsReseed: false,
+    theme: 'triangle' as keyof typeof Themes,
+    
+    visualizePerception: false,
+    perceptionColor: '#00ff00',
+    perceptionLineWidth: 1,
+    perceptionAlpha: 0.2,
+
+    visualizeCohesionRadius: false,
+    cohesionRadius: 50,
+    cohesionRadiusColor: '#0000ff',
+    cohesionRadiusLineWidth: 1,
+    cohesionRadiusAlpha: 0.2,
+
+    visualizeAlignmentRadius: true,
+    alignmentRadius: 50,
+    alignmentRadiusColor: '#ffff00',
+    alignmentRadiusLineWidth: 1,
+    alignmentRadiusAlpha: 0.2,
+    
+    visualizeSeparationRadius: false,
+    separationRadius: 25,
+    separationRadiusColor: '#ff0000',
+    separationRadiusLineWidth: 1,
+    separationRadiusAlpha: 0.2,
   },
 
   mouse: {

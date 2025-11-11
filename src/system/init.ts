@@ -21,6 +21,30 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.maxForce     = boidConfig.maxForce;
   param.wrapEdges    = boidConfig.wrapEdges;
   param.needsReseed  = true;  // force reseed at startup
+  param.theme        = boidConfig.theme;
+
+  param.visualizePerception = boidConfig.visualizePerception;
+  param.perceptionColor = boidConfig.perceptionColor;
+  param.perceptionLineWidth = boidConfig.perceptionLineWidth;
+  param.perceptionAlpha = boidConfig.perceptionAlpha;
+  
+  param.visualizeCohesionRadius = boidConfig.visualizeCohesionRadius;
+  param.cohesionRadius = boidConfig.cohesionRadius;
+  param.cohesionRadiusColor = boidConfig.cohesionRadiusColor;
+  param.cohesionRadiusLineWidth = boidConfig.cohesionRadiusLineWidth;
+  param.cohesionRadiusAlpha = boidConfig.cohesionRadiusAlpha;
+
+  param.visualizeAlignmentRadius = boidConfig.visualizeAlignmentRadius;
+  param.alignmentRadius = boidConfig.alignmentRadius;
+  param.alignmentRadiusColor = boidConfig.alignmentRadiusColor;
+  param.alignmentRadiusLineWidth = boidConfig.alignmentRadiusLineWidth;
+  param.alignmentRadiusAlpha = boidConfig.alignmentRadiusAlpha;
+
+  param.visualizeSeparationRadius = boidConfig.visualizeSeparationRadius;
+  param.separationRadius = boidConfig.separationRadius;
+  param.separationRadiusColor = boidConfig.separationRadiusColor;
+  param.separationRadiusLineWidth = boidConfig.separationRadiusLineWidth;
+  param.separationRadiusAlpha = boidConfig.separationRadiusAlpha;
 
  function fitCanvas() {
    const dpr = window.devicePixelRatio || 1;

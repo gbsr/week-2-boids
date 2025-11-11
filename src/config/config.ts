@@ -1,3 +1,5 @@
+import type { Themes } from "../geometry/themes"
+
 export const canvasConfig = {
   backgroundColor: '#000000',
   border: '1px solid #333333',
@@ -12,7 +14,10 @@ export const boidConfig = {
   cohesionWeight: 1.0,
   maxSpeed: 0.35,
   maxForce: 0.1,
-  wrapEdges: false,
+  wrapEdges: true,
+  // Visual theme.
+  // available themes: 'triangle', 'circle', 'diamond', 'cross', 'arrow', 'kite', 'chevron', 'leaf'
+  theme: 'diamond' as keyof typeof Themes,
 
   visualizePerception: false,
   perceptionColor: '#00ff00',
@@ -20,16 +25,19 @@ export const boidConfig = {
   perceptionAlpha: 0.2,
 
   visualizeCohesionRadius: false,
+  cohesionRadius: 50,
   cohesionRadiusColor: '#0000ff',
   cohesionRadiusLineWidth: 1,
   cohesionRadiusAlpha: 0.2,
 
-  visualizeAlignmentRadius: false,
+  visualizeAlignmentRadius: true,
+  alignmentRadius: 50,
   alignmentRadiusColor: '#ffff00',
   alignmentRadiusLineWidth: 1,
   alignmentRadiusAlpha: 0.2,
   
   visualizeSeparationRadius: false,
+  separationRadius: 25,
   separationRadiusColor: '#ff0000',
   separationRadiusLineWidth: 1,
   separationRadiusAlpha: 0.2,
