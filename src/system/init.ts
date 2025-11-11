@@ -1,4 +1,3 @@
-import { Themes } from './../geometry/themes'
 import { state } from '../state/state';
 import { boidConfig, canvasConfig } from '../config/config';
 
@@ -8,8 +7,7 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   Object.assign(canvas.style, {
     backgroundColor: canvasConfig.backgroundColor,
     border: canvasConfig.border,
-    borderRadius: canvasConfig.borderRadius,
-    boxShadow: canvasConfig.boxShadow,
+    // boxShadow: canvasConfig.boxShadow,
   });
 
   // Init state.params from boidConfig
@@ -24,8 +22,6 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.wrapEdges    = boidConfig.wrapEdges;
   param.needsReseed  = true;  // force reseed at startup
 
-
-  const theme = Themes.arrow
  function fitCanvas() {
    const dpr = window.devicePixelRatio || 1;
    const rect = canvas.getBoundingClientRect();
