@@ -4,8 +4,9 @@ export const Themes = {
   triangle: {
     fill: '#f5f5f7',
     stroke: '#5ec8ff',
-    lineWidth: 5,
+    lineWidth: 6,
     shape: 'triangle' as const,
+    size: 2.5,
   },
 
   circle: {
@@ -13,6 +14,7 @@ export const Themes = {
     stroke: '#ff6e6e',
     lineWidth: 1,
     shape: 'circle' as const,
+    size: 1.65
   },
 
   diamond: {
@@ -20,5 +22,62 @@ export const Themes = {
     stroke: '#fff',
     lineWidth: 1,
     shape: 'diamond' as const,
+    size: 2.25
+  },
+
+  cross: {
+    fill: '#ffdd57',
+    stroke: '#ffaa00',
+    lineWidth: 2,
+    shape: 'cross' as const,
+    size: 1.5
+  },
+
+  arrow: { 
+    fill: '#d4f1f9',
+    stroke: '#3aa0f3',
+    lineWidth: 3,
+    shape: 'arrow' as const,
+    size: 2.0
+  },
+
+  kite: {
+    fill: '#e1ffd4',
+    stroke: '#4caf50',
+    lineWidth: 2,
+    shape: 'kite' as const,
+    size: 2.0
+  },
+
+  chevron: {
+    fill: '#fff0f5',
+    stroke: '#ff69b4',
+    lineWidth: 2,
+    shape: 'chevron' as const,
+    size: 2.0
+  },
+
+  leaf: {
+    fill: '#d0f0c0',
+    stroke: '#228b22',
+    lineWidth: 2,
+    shape: 'leaf' as const,
+    size: 2.0
+  },
+
+  capsule: {
+    fill: '#f0f8ff',
+    stroke: '#1e90ff',
+    lineWidth: 2,
+    shape: 'capsule' as const,
+    size: 2.0
+  },
+
+  wedge: {
+    fill: '#fff5e1',
+    stroke: '#ff8c00',
+    lineWidth: 2,
+    shape: 'wedge' as const,
+    size: 2.0
   },
 };

@@ -18,7 +18,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 const canvas = document.getElementById('boidsCanvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
 
-const theme = Themes.diamond;
+const theme = Themes.arrow;
 
 // Adjust canvas size to fit its displayed size
 function fitCanvas() {
