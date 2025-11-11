@@ -12,12 +12,12 @@ export const state = {
     wSeparation: 1.5,
     wAlignment: 1.0,
     wCohesion: 1.0,
-    maxSpeed: 2,
+    maxSpeed: 5,
     maxForce: 0.03,
     wrapEdges: true,
     dtMs: 16,
     seed: 42,
-    needsReseeed: false,
+    needsReseed: false,
   },
 
   mouse: {

@@ -70,10 +70,13 @@ export function drawBoid(
 }
 
 
-export default function renderFrame(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, drawBoid: any, center: { x: number; y: number }, vel: { x: number; y: number }, theme: Theme) {
+export default function renderFrame(ctx: CanvasRenderingContext2D, 
+  canvas: HTMLCanvasElement, 
+  drawBoid: any, center: { x: number; y: number }, vel: { x: number; y: number }, 
+  theme: Theme) 
+  {
   const size = theme.size ?? 1;
   ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-  // Try different shapes: 'triangle' | 'circle' | 'diamond'
   drawBoid(ctx, center, vel, theme.shape, theme, size);
 }
