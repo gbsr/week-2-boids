@@ -1,4 +1,3 @@
-
 export const canvasConfig = {
   backgroundColor: '#000000',
   border: '1px solid #333333',
