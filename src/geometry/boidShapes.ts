@@ -1,5 +1,5 @@
 // What shapes exist (expand later)
-export type ShapeKey = 'triangle' | 'circle' | 'diamond' | 'cross' | 'arrow' | 'kite' | 'chevron' | 'leaf' | 'capsule' | 'wedge';
+export type ShapeKey = 'triangle' | 'circle' | 'diamond' | 'cross' | 'cake' | 'kite' | 'chevron' | 'leaf' | 'capsule' | 'wedge';
 
 export type Anchor = 'tip' | 'center';
 
@@ -58,7 +58,7 @@ export const SHAPES: Record<ShapeKey, ShapeSpec> = {
     forward: '+x',
     scale: 1,
     points: [
-      [-6, -2],
+      [-10, -2],
       [-2, -2],
       [-2, -6],
       [2, -6],
@@ -69,21 +69,21 @@ export const SHAPES: Record<ShapeKey, ShapeSpec> = {
       [2, 6],
       [-2, 6],
       [-2, 2],
-      [-6, 2],
+      [-10, 2],
     ],
   },
 
-  arrow: {
+  cake: {
     type: 'path',
     anchor: 'tip',
     forward: '+x',
     scale: 1,
     points: [
-      [0, 0],     // tip
-      [-20, 8],   // lower base
+      [5, 0],     // tip
+      [-10, 8],   // lower base
       [-12, 3],    // inner notch
       [-12, -3],   // inner notch
-      [-20, -8],  // upper base
+      [-10, -8],  // upper base
     ],
   },
 
@@ -94,10 +94,10 @@ export const SHAPES: Record<ShapeKey, ShapeSpec> = {
     forward: '+x',
     scale: 1,
     points: [
-      [10, 0],
-      [0, 5],
-      [-10, 0],
-      [0, -5],
+      [3, 0],
+      [0, 3],
+      [-7, 0],
+      [0, -3],
     ],
   },
 
