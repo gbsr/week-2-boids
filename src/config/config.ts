@@ -7,17 +7,27 @@ export const canvasConfig = {
 }
 
 export const boidConfig = {
-  boidCount: 10,
+  boidCount: 100,
   perceptionRadius: 50,
   separationWeight: 1.5,
-  alignmentWeight: 1.0,
+  alignmentWeight: 100,
   cohesionWeight: 1.0,
-  maxSpeed: 0.5,
-  maxForce: 0.1,
+  maxSpeed: 100,
+  maxForce: 10000,
   wrapEdges: true,
   // Visual theme.
-  // available themes: 'triangle', 'circle', 'diamond', 'cross', 'arrow', 'kite', 'chevron', 'leaf'
-  theme: 'diamond' as keyof typeof Themes,
+  // available themes: 
+  // 'triangle', 
+  // 'circle', 
+  // 'diamond', 
+  // 'cross', 
+  // 'arrow', 
+  // 'kite', 
+  // 'chevron', 
+  // 'leaf', 
+  // 'particle'
+  theme: 'cake' as keyof typeof Themes,
+  turnRate: 0.8,
 
   visualizePerception: false,
   perceptionColor: '#00ff00',
@@ -30,13 +40,13 @@ export const boidConfig = {
   cohesionRadiusLineWidth: 1,
   cohesionRadiusAlpha: 0.2,
 
-  visualizeAlignmentRadius: true,
-  visualizeAlignmentToNeighbors: true,
+  visualizeAlignmentRadius: false,
+  visualizeAlignmentToNeighbors: false,
   alignmentRadius: 75,
   // alignmentRadiusColor: '#ffff00',
   alignmentRadiusColor: '7fe29c',
   alignmentRadiusLineWidth: 1,
-  alignmentRadiusAlpha: 0.35,
+  alignmentRadiusAlpha: 0.2,
   
   visualizeSeparationRadius: false,
   separationRadius: 25,

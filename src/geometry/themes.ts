@@ -33,11 +33,11 @@ export const Themes = {
     size: 1.5
   },
 
-  arrow: { 
-    fill: '#d4f1f9',
-    stroke: '#3aa0f3',
+  cake: { 
+    fill: '#ff31e4',
+    stroke: '#333',
     lineWidth: 3,
-    shape: 'arrow' as const,
+    shape: 'cake' as const,
     size: 2.0
   },
 
@@ -80,4 +80,12 @@ export const Themes = {
     shape: 'wedge' as const,
     size: 2.0
   },
+
+  particle: {
+    fill: '#ffffff',
+    stroke: '#ffffff',
+    lineWidth: 1,
+    shape: 'circle' as const,
+    size: 1.0
+  }
 };

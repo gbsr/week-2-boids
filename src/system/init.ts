@@ -22,6 +22,7 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.wrapEdges    = boidConfig.wrapEdges;
   param.needsReseed  = true;  // force reseed at startup
   param.theme        = boidConfig.theme;
+  param.turnRate    = boidConfig.turnRate;
 
   param.visualizePerception = boidConfig.visualizePerception;
   param.perceptionColor = boidConfig.perceptionColor;

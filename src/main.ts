@@ -1,38 +1,43 @@
 import './style.css'
 import renderFrame, { drawBoid } from './render/boidRenderer';
-import { Themes } from './geometry/themes';
 import { init } from './system/init'
 import update from './system/update'
 import { state } from './state/state'
-import type { Theme } from './interface/boid'
 import syncBoidCount from './system/syncBoidCount'
-
+import { Themes } from './geometry/themes'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-    <div class="main-content">
+  <div class="main-content">
     <div class="aside">
       <h1>Boids Simulation</h1>
       <div class="controls"></div>
     </div>
-      <div class="canvasWrapper">
-        <canvas id="boidsCanvas"></canvas>
-      </div>
+    <div class="canvasWrapper">
+      <canvas id="boidsCanvas"></canvas>
     </div>
-`
+  </div>
+`;
 
 const canvas = document.getElementById('boidsCanvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
-const position = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
-const direction = { x: 1, y: 0 };
 
 state.fsm.state = 'running';
 
-function animate() {
-  requestAnimationFrame(animate);
+// actually init on the first frame lol
+init(canvas, ctx);
+
+let lastTs = performance.now();
+function animate(ts: number) {
+  const dtSec = Math.max(0, Math.min(0.05, (ts - lastTs) / 1000));
+  lastTs = ts;
+
   syncBoidCount(canvas);
-  update(state.fsm.state, canvas, position, direction);
-  renderFrame(ctx, canvas, drawBoid, Themes[state.params.theme]);
+  update(dtSec, state.fsm.state, canvas);
+
+  const theme = Themes[state.params.theme as keyof typeof Themes];
+  renderFrame(ctx, canvas, drawBoid, theme);
+
+  requestAnimationFrame(animate);
 }
 
-init(canvas, ctx);
-animate();
+requestAnimationFrame(animate);

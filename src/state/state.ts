@@ -20,7 +20,8 @@ export const state = {
     dtMs: 16,
     seed: 42,
     needsReseed: false,
-    theme: 'triangle' as keyof typeof Themes,
+    theme: 'cake' as keyof typeof Themes,
+    turnRate: 0.02,
     
     visualizePerception: false,
     perceptionColor: '#00ff00',
@@ -33,9 +34,9 @@ export const state = {
     cohesionRadiusLineWidth: 1,
     cohesionRadiusAlpha: 0.2,
 
-    visualizeAlignmentRadius: true,
+    visualizeAlignmentRadius: false,
     visualizeAlignmentToNeighbors: true,
-    alignmentRadius: 50,
+    alignmentRadius: 75,
     alignmentRadiusColor: '#ffff00',
     alignmentRadiusLineWidth: 1,
     alignmentRadiusAlpha: 0.2,

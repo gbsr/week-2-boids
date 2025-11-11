@@ -2,6 +2,7 @@ import type { ShapeSpec, ShapeKey } from '../geometry/boidShapes';
 import { SHAPES } from '../geometry/boidShapes';
 import type { Theme, Vec2 } from '../interface/boid'
 import { state } from '../state/state'
+import alignmentDebugViz from '../utils/alignmentDebugViz'
 import alignmentRule from '../utils/alignmentDebugViz'
 import { gatherNeighbors } from '../utils/neighbor'
 
@@ -107,5 +108,6 @@ export default function renderFrame(ctx: CanvasRenderingContext2D,
       gatherNeighbors(i, { x: posX, y: posY }, 2 * radius, neighbors);
       alignmentRule({ x: posX[i], y: posY[i] }, neighbors, ctx);
     }
+    neighbors.length = 0; // reset for next boid
   }
 }
