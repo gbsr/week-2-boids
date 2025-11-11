@@ -24,7 +24,7 @@ const canvas = document.getElementById('boidsCanvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
 const position = { x: canvas.clientWidth / 2, y: canvas.clientHeight / 2 };
 const direction = { x: 1, y: 0 };
-const theme = Themes.arrow as Theme;
+const theme = Themes.diamond as Theme;
 
 state.fsm.state = 'running';
 
@@ -32,7 +32,7 @@ function animate() {
   requestAnimationFrame(animate);
   syncBoidCount(canvas);
   update(state.fsm.state, canvas, position, direction);
-  renderFrame(ctx, canvas, drawBoid, position, direction, theme);
+  renderFrame(ctx, canvas, drawBoid, theme);
 }
 
 init(canvas, ctx);

@@ -1,6 +1,7 @@
 import type { ShapeSpec, ShapeKey } from '../geometry/boidShapes';
 import { SHAPES } from '../geometry/boidShapes';
 import type { Theme, Vec2 } from '../interface/boid'
+import { state } from '../state/state'
 
 
 // cache for path shapes so we don’t rebuild each frame
@@ -72,11 +73,24 @@ export function drawBoid(
 
 export default function renderFrame(ctx: CanvasRenderingContext2D, 
   canvas: HTMLCanvasElement, 
-  drawBoid: any, center: { x: number; y: number }, vel: { x: number; y: number }, 
+  drawBoid: any, 
   theme: Theme) 
   {
   const size = theme.size ?? 1;
   ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+  const posX = state.arrays.position.x;
+  const posY = state.arrays.position.y;
+  const velX = state.arrays.velocity.x;
+  const velY = state.arrays.velocity.y;
 
-  drawBoid(ctx, center, vel, theme.shape, theme, size);
+  for (let i = 0; i < posX.length; i++) {
+    drawBoid(
+      ctx, 
+      { x: posX[i], y: posY[i] }, 
+      { x: velX[i], y: velY[i] }, 
+      theme.shape, 
+      theme, 
+      size
+    );
+  }
 }
