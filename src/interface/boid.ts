@@ -12,6 +12,7 @@ export interface Theme {
   stroke: string;
   lineWidth: number;
   shape: ShapeKey;
+  size?: number;
 }
 
 export interface Vec2 { x: number; y: number; }
