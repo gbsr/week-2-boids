@@ -1,6 +1,5 @@
+
 export const canvasConfig = {
-  width: 800,
-  height: 600,
   backgroundColor: '#000000',
   border: '1px solid #333333',
   borderRadius: '30px',
@@ -8,12 +7,12 @@ export const canvasConfig = {
 }
 
 export const boidConfig = {
-  boidCount: 100,
+  boidCount: 10,
   perceptionRadius: 50,
   separationWeight: 1.5,
   alignmentWeight: 1.0,
   cohesionWeight: 1.0,
-  maxSpeed: 4,
+  maxSpeed: 1,
   maxForce: 0.1,
   wrapEdges: true,
   color: '#FFFFFF',
