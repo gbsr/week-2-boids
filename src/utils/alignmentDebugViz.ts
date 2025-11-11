@@ -1,8 +1,8 @@
 // alignmentRule.ts
-import { state } from "../../state/state";
-import { hexToRgba } from "../../utils/helpers";
+import { state } from "../state/state";
+import { hexToRgba } from "./helpers";
 
-export default function alignmentRule(
+export default function alignmentDebugViz(
   boidPos: { x: number; y: number },
   neighbors: Array<{ x: number; y: number }>,
   ctx: CanvasRenderingContext2D

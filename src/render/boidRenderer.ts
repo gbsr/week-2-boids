@@ -2,7 +2,7 @@ import type { ShapeSpec, ShapeKey } from '../geometry/boidShapes';
 import { SHAPES } from '../geometry/boidShapes';
 import type { Theme, Vec2 } from '../interface/boid'
 import { state } from '../state/state'
-import alignmentRule from '../system/rules/alignment'
+import alignmentRule from '../utils/alignmentDebugViz'
 import { gatherNeighbors } from '../utils/neighbor'
 
 
