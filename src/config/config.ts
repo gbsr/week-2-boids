@@ -7,7 +7,7 @@ export const canvasConfig = {
 }
 
 export const boidConfig = {
-  boidCount: 22,
+  boidCount: 80,
   perceptionRadius: 50,
   separationWeight: 1.5,
   alignmentWeight: 100,
@@ -15,14 +15,16 @@ export const boidConfig = {
   maxSpeed: 400,
   maxForce: 10000,
   wrapEdges: true,
-  size: 4,
+  size: 1,
 
   // trails
-  trailLength: 0.96,
-  trailAlpha: 0.5,
-  trailStep: 4,
-  shadowSize: 2,
-  shadowOpacity: 0.01,
+  trailLength: 0.94,
+  trailAlpha: 0,
+  trailStep: 9,
+  shadowSize: 2.1,
+  shadowOpacity: 0.1,
+  randomBoidColors: true,
+  randomTrailColors: false,
 
   // Visual theme.
   // available themes: 
@@ -35,8 +37,8 @@ export const boidConfig = {
   // 'chevron', 
   // 'leaf', 
   // 'particle'
-  theme: 'cross' as keyof typeof Themes,
-  turnRate: 0.35,
+  theme: 'triangle' as keyof typeof Themes,
+  turnRate: 0.85,
 
   visualizePerception: false,
   perceptionColor: '#00ff00',

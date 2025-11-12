@@ -28,6 +28,8 @@ export const state = {
     trailStep: 9,
     shadowSize: 1.35,
     shadowOpacity: 0.1,
+    randomBoidColors: false,
+    randomTrailColors: false,
 
     visualizePerception: false,
     perceptionColor: '#00ff00',
