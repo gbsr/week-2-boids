@@ -28,6 +28,7 @@ export function drawBoid(
   shapeKey: ShapeKey,
   theme: Theme,
   size = theme.size ?? 1,
+  outline?: { color: string; alpha?: number; widthMul?: number } // <- NEW
 ) {
   const spec = SHAPES[shapeKey];
   const angle = Math.atan2(vel.y, vel.x) || 0;
@@ -39,22 +40,55 @@ export function drawBoid(
   const scale = spec.scale * size;
   ctx.scale(scale, scale);
 
-  ctx.lineWidth = (theme.lineWidth ?? 0) / scale;
+  const baseLW = (theme.lineWidth ?? 0) / scale;
+  ctx.lineWidth = baseLW;
   ctx.strokeStyle = theme.stroke;
   ctx.fillStyle   = theme.fill;
 
+  // --- optional dark outline (the “shadow”) BEFORE normal fill/stroke
+  if (outline && baseLW > 0) {
+    const lw = baseLW * (outline.widthMul ?? 1.6);
+    const a  = outline.alpha ?? 0.35;
+
+    const prevAlpha = ctx.globalAlpha;
+    const prevStroke = ctx.strokeStyle;
+    const prevLW = ctx.lineWidth;
+
+    ctx.globalAlpha = a;
+    ctx.strokeStyle = outline.color;
+    ctx.lineWidth   = lw;
+
+    if (spec.type === 'circle') {
+      const r = (spec.radius ?? 4);
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.stroke();
+    } else {
+      const path = getPath(spec);
+      ctx.stroke(path);
+    }
+
+    // restore for normal draw
+    ctx.globalAlpha = prevAlpha;
+    ctx.strokeStyle = prevStroke;
+    ctx.lineWidth   = prevLW;
+  }
+
+  // --- normal draw (unchanged)
   if (spec.type === 'circle') {
-    const r = spec.radius ?? 4;
+    const r = (spec.radius ?? 4);
     ctx.beginPath();
     ctx.arc(0, 0, r, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fill();
-    if ((theme.lineWidth ?? 0) > 0) ctx.stroke();
+    if (baseLW > 0) ctx.stroke();
   } else {
     const path = getPath(spec);
     ctx.fill(path);
-    if ((theme.lineWidth ?? 0) > 0) ctx.stroke(path);
+    if (baseLW > 0) ctx.stroke(path);
   }
+
   ctx.restore();
 }
 
@@ -191,11 +225,12 @@ export default function renderFrame(
 
       drawBoid(
         tctx,
-        { x: stampX[i] * dpr, y: stampY[i] * dpr },   // pixel coords
+        { x: stampX[i] * dpr, y: stampY[i] * dpr },
         { x: dx, y: dy },
         theme.shape as ShapeKey,
         themePX,
-        sizePX
+        sizePX,
+        { color: '#000', alpha: state.params.shadowOpacity, widthMul: state.params.shadowSize }   // <- outline only for trail
       );
     }
 
@@ -207,7 +242,8 @@ export default function renderFrame(
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(trailCanvas!, 0, 0);          // exact pixels, no scaling
+  ctx.drawImage(trailCanvas!, 0, 0);
+            // exact pixels, no scaling
 
   // OPTIONAL: live heads & debug overlays in CSS space
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

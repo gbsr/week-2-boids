@@ -25,8 +25,10 @@ export const state = {
     size: 1,
     trailLength: 0.3,
     trailAlpha: 0.3,
-    trailStep: 6,
-    
+    trailStep: 9,
+    shadowSize: 1.35,
+    shadowOpacity: 0.1,
+
     visualizePerception: false,
     perceptionColor: '#00ff00',
     perceptionLineWidth: 1,

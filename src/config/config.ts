@@ -15,12 +15,14 @@ export const boidConfig = {
   maxSpeed: 400,
   maxForce: 10000,
   wrapEdges: true,
-  size: 6,
+  size: 4,
 
   // trails
-  trailLength: 0.9,
+  trailLength: 0.96,
   trailAlpha: 0.5,
-  trailStep: 6,
+  trailStep: 4,
+  shadowSize: 2,
+  shadowOpacity: 0.01,
 
   // Visual theme.
   // available themes: 
@@ -34,7 +36,7 @@ export const boidConfig = {
   // 'leaf', 
   // 'particle'
   theme: 'cross' as keyof typeof Themes,
-  turnRate: 2,
+  turnRate: 0.35,
 
   visualizePerception: false,
   perceptionColor: '#00ff00',

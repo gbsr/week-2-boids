@@ -27,6 +27,8 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.trailLength = boidConfig.trailLength;
   param.trailAlpha  = boidConfig.trailAlpha;
   param.trailStep   = boidConfig.trailStep;
+  param.shadowSize  = boidConfig.shadowSize;
+  param.shadowOpacity = boidConfig.shadowOpacity;
 
   param.visualizePerception = boidConfig.visualizePerception;
   param.perceptionColor = boidConfig.perceptionColor;
