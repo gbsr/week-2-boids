@@ -18,7 +18,7 @@ export const boidConfig = {
   size: 5,
 
   // trails
-  trailLength: 0.7,
+  trailLength: 0.9,
   trailAlpha: 0.5,
 
   // Visual theme.
