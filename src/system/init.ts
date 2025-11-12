@@ -32,23 +32,29 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.randomBoidColors = boidConfig.randomBoidColors;
   param.randomTrailColors = boidConfig.randomTrailColors;
 
+  // perception viz
   param.visualizePerception = boidConfig.visualizePerception;
   param.perceptionColor = boidConfig.perceptionColor;
   param.perceptionLineWidth = boidConfig.perceptionLineWidth;
   param.perceptionAlpha = boidConfig.perceptionAlpha;
   
+  // cohesion viz
   param.visualizeCohesionRadius = boidConfig.visualizeCohesionRadius;
+  param.visualizeCohesionToNeighbors = boidConfig.visualizeCohesionToNeighbors;
   param.cohesionRadius = boidConfig.cohesionRadius;
   param.cohesionRadiusColor = boidConfig.cohesionRadiusColor;
   param.cohesionRadiusLineWidth = boidConfig.cohesionRadiusLineWidth;
   param.cohesionRadiusAlpha = boidConfig.cohesionRadiusAlpha;
 
+  // alignment viz
   param.visualizeAlignmentRadius = boidConfig.visualizeAlignmentRadius;
+  param.visualizeAlignmentToNeighbors = boidConfig.visualizeAlignmentToNeighbors;
   param.alignmentRadius = boidConfig.alignmentRadius;
   param.alignmentRadiusColor = boidConfig.alignmentRadiusColor;
   param.alignmentRadiusLineWidth = boidConfig.alignmentRadiusLineWidth;
   param.alignmentRadiusAlpha = boidConfig.alignmentRadiusAlpha;
 
+  // separation viz
   param.visualizeSeparationRadius = boidConfig.visualizeSeparationRadius;
   param.separationRadius = boidConfig.separationRadius;
   param.separationRadiusColor = boidConfig.separationRadiusColor;

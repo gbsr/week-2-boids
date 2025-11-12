@@ -9,19 +9,27 @@ export const state = {
   fsm: { state: 'idle' as FSMState },
 
   params: {
+
+    // simulation
     boidCount: 100,
     perception: 50,
+    dtMs: 16,
+    seed: 42,
+
+    // weights
     wSeparation: 1.5,
     wAlignment: 1.0,
     wCohesion: 1.0,
+
+    // movement
     maxSpeed: 5,
     maxForce: 0.03,
-    wrapEdges: true,
-    dtMs: 16,
-    seed: 42,
-    needsReseed: false,
-    theme: 'cake' as keyof typeof Themes,
     turnRate: 0.02,
+    wrapEdges: true,
+    needsReseed: false,
+
+    // looks
+    theme: 'cake' as keyof typeof Themes,
     size: 1,
     trailLength: 0.3,
     trailAlpha: 0.3,
@@ -31,24 +39,29 @@ export const state = {
     randomBoidColors: false,
     randomTrailColors: false,
 
+    // perception viz
     visualizePerception: false,
     perceptionColor: '#00ff00',
     perceptionLineWidth: 1,
     perceptionAlpha: 0.2,
 
+    // cohesion viz
     visualizeCohesionRadius: false,
+    visualizeCohesionToNeighbors: false,
     cohesionRadius: 50,
     cohesionRadiusColor: '#0000ff',
     cohesionRadiusLineWidth: 1,
     cohesionRadiusAlpha: 0.2,
 
+    // alignment viz
     visualizeAlignmentRadius: false,
-    visualizeAlignmentToNeighbors: false,
+    visualizeAlignmentToNeighbors: true,
     alignmentRadius: 75,
     alignmentRadiusColor: '#ffff00',
     alignmentRadiusLineWidth: 1,
     alignmentRadiusAlpha: 0.2,
     
+    // separation viz
     visualizeSeparationRadius: false,
     separationRadius: 25,
     separationRadiusColor: '#ff0000',

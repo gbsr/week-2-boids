@@ -1,6 +1,7 @@
 import { state, type FSMState } from "../state/state";
 import { vec2lerp, vec2normalize } from "../utils/helpers";
 import alignmentSteer from "./rules/alignmentSteer";
+import cohesionSteer from "./rules/cohesionSteer"
 
 export default function update(
   dtSec: number,
@@ -32,7 +33,13 @@ export default function update(
   const len = posX.length;
   for (let i = 0; i < len; i++) {
     // 1) Steering forces
-    const steer = alignmentSteer(i, state.arrays, state.params);
+    const alignment = alignmentSteer(i, state.arrays, state.params);
+    const cohesion = cohesionSteer(i, state.arrays, state.params);
+
+    const steer = {
+      x: alignment.x + cohesion.x,
+      y: alignment.y + cohesion.y,
+    };
 
     // 2) New candidate direction
     const dirOld = vec2normalize({ x: velX[i], y: velY[i] });

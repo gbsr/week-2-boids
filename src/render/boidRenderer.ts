@@ -3,7 +3,8 @@ import type { ShapeSpec, ShapeKey } from '../geometry/boidShapes';
 import { SHAPES } from '../geometry/boidShapes';
 import type { Theme, Vec2 } from '../interface/boid';
 import { state } from '../state/state';
-import alignmentRule from '../utils/alignmentDebugViz';
+import alignmentDebugViz from '../utils/alignmentDebugViz';
+import cohesionDebugViz from '../utils/cohesionDebugViz'
 import { gatherNeighbors } from '../utils/neighbor';
 
 /* ---------------- path cache ---------------- */
@@ -291,11 +292,34 @@ for (let i = 0; i < count; i++) {
 
 // Optional overlays on top of heads
 if (state.params.visualizeAlignmentRadius || state.params.visualizeAlignmentToNeighbors) {
-  const neighbors: Array<{ x: number; y: number }> = [];
+  const neighborsPos: Array<{ x: number; y: number }> = [];
   for (let i = 0; i < count; i++) {
-    gatherNeighbors(i, { x: posX, y: posY }, state.params.alignmentRadius, neighbors);
-    alignmentRule({ x: posX[i], y: posY[i] }, neighbors, ctx);
-    neighbors.length = 0;
+    neighborsPos.length = 0; // clear for this boid
+    gatherNeighbors(
+      i,
+      { x: posX, y: posY },
+      state.params.alignmentRadius,
+      neighborsPos           // ← pass the out-array
+    );
+    alignmentDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx)
+    
+    
+  }
+}
+
+if (state.params.visualizeCohesionRadius || state.params.visualizeCohesionToNeighbors) {
+  const neighborsPos: Array<{ x: number; y: number }> = [];
+  for (let i = 0; i < count; i++) {
+    neighborsPos.length = 0; // clear for this boid
+    gatherNeighbors(
+      i,
+      { x: posX, y: posY },
+      state.params.cohesionRadius,
+      neighborsPos           // ← pass the out-array
+    );
+    cohesionDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx)
+    
+    
   }
 }
 }

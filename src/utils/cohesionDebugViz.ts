@@ -1,23 +1,21 @@
-// alignmentRule.ts
-import { state } from "../state/state";
+import { state } from "../state/state"
 import { hexToRgba } from "./helpers";
 
-export default function alignmentDebugViz(
+export default function cohesionDebugViz(
   boidPos: { x: number; y: number },
   neighbors: Array<{ x: number; y: number }>,
   ctx: CanvasRenderingContext2D
 ) {
-  if (!state.params.visualizeAlignmentRadius && !state.params.visualizeAlignmentToNeighbors) return;
-  
+  if (!state.params.visualizeCohesionRadius && !state.params.visualizeCohesionToNeighbors) return;
+
   // circle
-  if (state.params.visualizeAlignmentRadius) {
+  if (state.params.visualizeCohesionRadius) {
     ctx.beginPath();
-    ctx.arc(boidPos.x, boidPos.y, state.params.alignmentRadius, 0, Math.PI * 2);
-    ctx.strokeStyle = hexToRgba(state.params.alignmentRadiusColor, state.params.alignmentRadiusAlpha * 5);
-    ctx.fillStyle = hexToRgba(
-      state.params.alignmentRadiusColor, state.params.alignmentRadiusAlpha);
-    ctx.lineWidth = state.params.alignmentRadiusLineWidth;
-    ctx.fill()
+    ctx.arc(boidPos.x, boidPos.y, state.params.cohesionRadius, 0, Math.PI * 2);
+    ctx.strokeStyle = hexToRgba(state.params.cohesionRadiusColor, state.params.cohesionRadiusAlpha * 5);
+    ctx.fillStyle = hexToRgba(state.params.cohesionRadiusColor, state.params.cohesionRadiusAlpha);
+    ctx.lineWidth = state.params.cohesionRadiusLineWidth;
+    ctx.fill();
     ctx.stroke();
   }
 
