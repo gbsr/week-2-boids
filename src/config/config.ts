@@ -13,14 +13,14 @@ export const boidConfig = {
  
   // weights
   separationWeight: 1.5,
-  alignmentWeight: 0.4,
-  cohesionWeight: 0.5,
+  alignmentWeight: 0.5,
+  cohesionWeight: 0.8,
 
   // movement
   maxSpeed: 100,
   maxForce: 10000,
   wrapEdges: true,
-  turnRate: 1.35,
+  turnRate: 2.85,
   
   // looks
   size: 1,
