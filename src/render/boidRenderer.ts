@@ -143,6 +143,16 @@ export default function renderFrame(
     lineWidth: (theme.lineWidth ?? 0) * dpr
   };
 
+  // user param: 0 = instant fade, 1 = infinite trail
+const t = Math.max(0, Math.min(1, state.params.trailLength ?? 1));
+
+// flip + linearize: higher = longer trail, lower = faster fade
+const erase = Math.pow(1 - t, 2.2); // 0.5 ≈ medium, 0.9 ≈ long, 0.1 ≈ short
+tctx.globalCompositeOperation = 'destination-out'; // erase alpha
+tctx.fillStyle = `rgba(0,0,0,${erase})`; // erase = amount to erase per frame (e.g. 0.05)
+tctx.fillRect(0, 0, pxW, pxH);
+tctx.globalCompositeOperation = 'source-over'; // back to normal drawing
+
   for (let i = 0; i < count; i++) {
     const x0 = lastX[i], y0 = lastY[i];     // CSS units
     const x1 = posX[i],  y1 = posY[i];
