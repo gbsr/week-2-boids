@@ -24,6 +24,8 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.theme        = boidConfig.theme;
   param.turnRate    = boidConfig.turnRate;
   param.size        = boidConfig.size;
+  param.trailLength = boidConfig.trailLength;
+  param.trailAlpha  = boidConfig.trailAlpha;
 
   param.visualizePerception = boidConfig.visualizePerception;
   param.perceptionColor = boidConfig.perceptionColor;

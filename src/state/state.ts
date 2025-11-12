@@ -23,6 +23,8 @@ export const state = {
     theme: 'cake' as keyof typeof Themes,
     turnRate: 0.02,
     size: 1,
+    trailLength: 0.3,
+    trailAlpha: 0.3,
     
     visualizePerception: false,
     perceptionColor: '#00ff00',

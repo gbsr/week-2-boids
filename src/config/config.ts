@@ -16,6 +16,11 @@ export const boidConfig = {
   maxForce: 10000,
   wrapEdges: true,
   size: 5,
+
+  // trails
+  trailLength: 0.7,
+  trailAlpha: 0.5,
+
   // Visual theme.
   // available themes: 
   // 'triangle', 
