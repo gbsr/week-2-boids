@@ -1,3 +1,4 @@
+// render/boidRenderer.ts
 import type { ShapeSpec, ShapeKey } from '../geometry/boidShapes';
 import { SHAPES } from '../geometry/boidShapes';
 import type { Theme, Vec2 } from '../interface/boid';
@@ -5,7 +6,7 @@ import { state } from '../state/state';
 import alignmentRule from '../utils/alignmentDebugViz';
 import { gatherNeighbors } from '../utils/neighbor';
 
-// ---------- path cache ----------
+/* ---------------- path cache ---------------- */
 const pathCache = new WeakMap<ShapeSpec, Path2D>();
 function getPath(spec: ShapeSpec): Path2D {
   const cached = pathCache.get(spec);
@@ -19,7 +20,7 @@ function getPath(spec: ShapeSpec): Path2D {
   return p;
 }
 
-// ---------- boid drawing (unchanged) ----------
+/* ---------------- boid drawing (unchanged) ---------------- */
 export function drawBoid(
   ctx: CanvasRenderingContext2D,
   pos: Vec2,
@@ -38,9 +39,9 @@ export function drawBoid(
   const scale = spec.scale * size;
   ctx.scale(scale, scale);
 
-  ctx.lineWidth = theme.lineWidth / scale;
+  ctx.lineWidth = (theme.lineWidth ?? 0) / scale;
   ctx.strokeStyle = theme.stroke;
-  ctx.fillStyle = theme.fill;
+  ctx.fillStyle   = theme.fill;
 
   if (spec.type === 'circle') {
     const r = spec.radius ?? 4;
@@ -48,20 +49,16 @@ export function drawBoid(
     ctx.arc(0, 0, r, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fill();
-    if (theme.lineWidth > 0) ctx.stroke();
+    if ((theme.lineWidth ?? 0) > 0) ctx.stroke();
   } else {
     const path = getPath(spec);
     ctx.fill(path);
-    if (theme.lineWidth > 0) ctx.stroke(path);
+    if ((theme.lineWidth ?? 0) > 0) ctx.stroke(path);
   }
-
   ctx.restore();
 }
 
-// ---------- offscreens for stamped trails ----------
-let headCanvas: HTMLCanvasElement | null = null;
-let headCtx: CanvasRenderingContext2D | null = null;
-
+/* ---------------- offscreens for stamped trails ---------------- */
 let trailCanvas: HTMLCanvasElement | null = null;
 let trailCtx: CanvasRenderingContext2D | null = null;
 
@@ -78,39 +75,47 @@ function ensureMainCanvas(canvas: HTMLCanvasElement, wCSS: number, hCSS: number)
   dpr = next;
 }
 
-function ensureOffscreens(wCSS: number, hCSS: number) {
+function ensureOffscreen(wCSS: number, hCSS: number) {
   const needW = Math.max(1, Math.floor(wCSS * dpr));
   const needH = Math.max(1, Math.floor(hCSS * dpr));
-
-  if (!headCanvas) {
-    headCanvas = document.createElement('canvas');
-    headCtx = headCanvas.getContext('2d')!;
-  }
   if (!trailCanvas) {
     trailCanvas = document.createElement('canvas');
     trailCtx = trailCanvas.getContext('2d')!;
   }
-
   if (pxW !== needW || pxH !== needH) {
     pxW = needW; pxH = needH;
-    headCanvas!.width = trailCanvas!.width = pxW;
-    headCanvas!.height = trailCanvas!.height = pxH;
+    trailCanvas!.width  = pxW;
+    trailCanvas!.height = pxH;
   }
 }
 
-// ---------- renderer: stamped (infinite) trails, DPR-correct ----------
+/* ---------------- last positions (CSS space) ---------------- */
+const lastX: number[] = [];
+const lastY: number[] = [];
+function syncLastPositions(count: number, posX: number[], posY: number[]) {
+  if (lastX.length !== count) {
+    lastX.length = count;
+    lastY.length = count;
+    for (let i = 0; i < count; i++) {
+      lastX[i] = posX[i];
+      lastY[i] = posY[i];
+    }
+  }
+}
+
+/* ---------------- renderer: stamped trails (no fade) ---------------- */
 export default function renderFrame(
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
-  drawBoidFn: any,           // kept for your signature
+  _drawBoidIgnored: any, // kept to match your call sites
   theme: Theme
 ) {
   const wCSS = canvas.clientWidth;
   const hCSS = canvas.clientHeight;
 
-  // 1) ensure main canvas bitmap matches CSS×DPR, and offscreens too
+  // Keep scaling EXACTLY as-is
   ensureMainCanvas(canvas, wCSS, hCSS);
-  ensureOffscreens(wCSS, hCSS);
+  ensureOffscreen(wCSS, hCSS);
 
   const posX = state.arrays.position.x;
   const posY = state.arrays.position.y;
@@ -118,39 +123,68 @@ export default function renderFrame(
   const velY = state.arrays.velocity.y;
   const count = posX.length;
 
-  // 2) HEADS: clear head buffer (per frame), draw current boids in CSS space
-  const hctx = headCtx!;
-  hctx.setTransform(dpr, 0, 0, dpr, 0, 0);        // CSS coords on headCanvas
-  hctx.clearRect(0, 0, wCSS, hCSS);
-  hctx.imageSmoothingEnabled = false;
+  syncLastPositions(count, posX, posY);
 
-  const sizeCSS = (theme.size ?? 1) * state.params.size;
+  // HEAD (optional): if you want live heads, draw them later on the main ctx in CSS space.
+
+  // TRAIL — stamp DISCRETE clones directly into the pixel-space trail buffer
+  const STEP = 6;                             // CSS px between stamps
+  const MAX_BRIDGE = Math.max(wCSS, hCSS)*0.45; // guard long jumps/wraps
+
+  const tctx = trailCtx!;
+  tctx.setTransform(1, 0, 0, 1, 0, 0);        // pixel space
+  tctx.imageSmoothingEnabled = false;
+
+  // Convert theme/size for pixel-space stamping
+  const sizeCSS = (theme.size ?? 1) * state.params.size; // same visual “size” as before
+  const sizePX  = sizeCSS * dpr;
+  const themePX: Theme = {
+    ...theme,
+    lineWidth: (theme.lineWidth ?? 0) * dpr
+  };
 
   for (let i = 0; i < count; i++) {
-    drawBoid(
-      hctx,
-      { x: posX[i], y: posY[i] },
-      { x: velX[i], y: velY[i] },
-      theme.shape as ShapeKey,
-      theme,
-      sizeCSS
-    );
+    const x0 = lastX[i], y0 = lastY[i];     // CSS units
+    const x1 = posX[i],  y1 = posY[i];
+
+    const dx = x1 - x0, dy = y1 - y0;
+    const dist = Math.hypot(dx, dy);
+
+    // Skip ridiculous jumps (wraps/teleports) and just resync
+    if (!isFinite(dist) || dist > MAX_BRIDGE) {
+      lastX[i] = x1; lastY[i] = y1;
+      continue;
+    }
+
+    const steps = Math.max(1, Math.floor(dist / STEP));
+    const inv = 1 / steps;
+
+    for (let s = 1; s <= steps; s++) {
+      const t = s * inv;
+      const sx = (x0 + dx * t) * dpr;       // pixel coords
+      const sy = (y0 + dy * t) * dpr;
+      // orientation from motion (CSS vector is fine)
+      drawBoid(
+        tctx,
+        { x: sx, y: sy },
+        { x: dx, y: dy },
+        theme.shape as ShapeKey,
+        themePX,
+        sizePX
+      );
+    }
+
+    lastX[i] = x1; lastY[i] = y1;           // advance history
   }
 
-  // 3) TRAILS: accumulate this frame's heads into the persistent trail buffer (no fade)
-  const tctx = trailCtx!;
-  tctx.setTransform(1, 0, 0, 1, 0, 0);            // pixel coords on trailCanvas
-  tctx.globalCompositeOperation = 'source-over';
-  tctx.drawImage(headCanvas!, 0, 0);              // 1:1 pixel copy
-
-  // 4) PRESENT: blit trail buffer to the onscreen canvas (pixel space, 1:1)
-  ctx.setTransform(1, 0, 0, 1, 0, 0);             // pixel coords
+  // PRESENT — 1:1 blit to the on-screen canvas (pixel space)
+  ctx.setTransform(1, 0, 0, 1, 0, 0);       // pixel space
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(trailCanvas!, 0, 0);              // exact pixels, no scaling
+  ctx.drawImage(trailCanvas!, 0, 0);        // exact pixels, no scaling
 
-  // 5) Overlays / live heads on top (CSS space), optional
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);         // switch to CSS coords
+  // OPTIONAL: live heads & debug overlays in CSS space
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);   // switch to CSS coords
 
   if (state.params.visualizeAlignmentRadius || state.params.visualizeAlignmentToNeighbors) {
     const neighbors: Array<{ x: number; y: number }> = [];
