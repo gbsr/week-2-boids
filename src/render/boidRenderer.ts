@@ -81,7 +81,7 @@ export default function renderFrame(ctx: CanvasRenderingContext2D,
   {
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-  const size = theme.size ?? 1;
+  const size = (theme.size ?? 1) * state.params.size;
 
   const posX = state.arrays.position.x;
   const posY = state.arrays.position.y;

@@ -15,6 +15,7 @@ export const boidConfig = {
   maxSpeed: 100,
   maxForce: 10000,
   wrapEdges: true,
+  size: 5,
   // Visual theme.
   // available themes: 
   // 'triangle', 
@@ -26,7 +27,7 @@ export const boidConfig = {
   // 'chevron', 
   // 'leaf', 
   // 'particle'
-  theme: 'cake' as keyof typeof Themes,
+  theme: 'cross' as keyof typeof Themes,
   turnRate: 0.8,
 
   visualizePerception: false,

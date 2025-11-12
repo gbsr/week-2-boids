@@ -22,6 +22,7 @@ export const state = {
     needsReseed: false,
     theme: 'cake' as keyof typeof Themes,
     turnRate: 0.02,
+    size: 1,
     
     visualizePerception: false,
     perceptionColor: '#00ff00',
