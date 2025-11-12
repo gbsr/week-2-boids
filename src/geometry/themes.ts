@@ -66,8 +66,8 @@ export const Themes = {
   },
 
   capsule: {
-    fill: '#f0f8ff',
-    stroke: '#1e90ff',
+    fill: '#000000',
+    stroke: '#ffbfba',
     lineWidth: 2,
     shape: 'capsule' as const,
     size: 2.0

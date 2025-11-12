@@ -25,6 +25,7 @@ export const state = {
     size: 1,
     trailLength: 0.3,
     trailAlpha: 0.3,
+    trailStep: 6,
     
     visualizePerception: false,
     perceptionColor: '#00ff00',

@@ -9,11 +9,22 @@ export default function update(
 ) {
   if (appState !== "running") return;
 
-  const { wrapEdges, maxSpeed, turnRate } = state.params;
+  const { wrapEdges, maxSpeed, turnRate, trailStep } = state.params;
   const posX = state.arrays.position.x;
   const posY = state.arrays.position.y;
   const velX = state.arrays.velocity.x;
   const velY = state.arrays.velocity.y;
+
+  // -----------------------------------------
+  // Auto-adjust maxSpeed relative to trailStep
+  // -----------------------------------------
+  // Define your baseline once (constant reference)
+  const BASE_STEP = 2;
+  const BASE_SPEED = maxSpeed;
+
+  // Compute derived maxSpeed so speed/step ratio stays stable
+  const step = Math.max(1, trailStep ?? BASE_STEP);
+  const derivedMaxSpeed = BASE_SPEED - (step / BASE_STEP);
 
   // Convert “turn rate per second” into a per-frame blend [0..1]
   const t = 1 - Math.exp(-turnRate * dtSec);
@@ -30,15 +41,15 @@ export default function update(
     // 3) Exponential smoothing of heading (inertia)
     const blended = vec2normalize(vec2lerp(dirOld, dirNew, t));
 
-    // 4) Set velocity at desired speed (px/s)
-    velX[i] = blended.x * maxSpeed;
-    velY[i] = blended.y * maxSpeed;
+    // 4) Set velocity at derived speed (px/s)
+    velX[i] = blended.x * derivedMaxSpeed;
+    velY[i] = blended.y * derivedMaxSpeed;
 
     // 5) Integrate position with dt (px = (px/s) * s)
     posX[i] += velX[i] * dtSec;
     posY[i] += velY[i] * dtSec;
 
-    // 6) Wrap
+    // 6) Wrap edges
     if (wrapEdges) {
       const w = canvas.clientWidth, h = canvas.clientHeight;
       if (posX[i] > w) posX[i] = 0; if (posX[i] < 0) posX[i] = w;

@@ -92,18 +92,30 @@ function ensureOffscreen(wCSS: number, hCSS: number) {
 /* ---------------- last positions (CSS space) ---------------- */
 const lastX: number[] = [];
 const lastY: number[] = [];
+
+/* distance-accumulator state for true STEP control (CSS px) */
+const distSinceStamp: number[] = [];
+const stampX: number[] = [];
+const stampY: number[] = [];
+
 function syncLastPositions(count: number, posX: number[], posY: number[]) {
   if (lastX.length !== count) {
     lastX.length = count;
     lastY.length = count;
+    distSinceStamp.length = count;
+    stampX.length = count;
+    stampY.length = count;
     for (let i = 0; i < count; i++) {
       lastX[i] = posX[i];
       lastY[i] = posY[i];
+      distSinceStamp[i] = 0;
+      stampX[i] = posX[i];
+      stampY[i] = posY[i];
     }
   }
 }
 
-/* ---------------- renderer: stamped trails (no fade) ---------------- */
+/* ---------------- renderer: stamped trails with fade + real STEP ---------------- */
 export default function renderFrame(
   ctx: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
@@ -119,64 +131,67 @@ export default function renderFrame(
 
   const posX = state.arrays.position.x;
   const posY = state.arrays.position.y;
-  const velX = state.arrays.velocity.x;
-  const velY = state.arrays.velocity.y;
   const count = posX.length;
 
   syncLastPositions(count, posX, posY);
 
-  // HEAD (optional): if you want live heads, draw them later on the main ctx in CSS space.
-
-  // TRAIL — stamp DISCRETE clones directly into the pixel-space trail buffer
-  const STEP = 6;                             // CSS px between stamps
-  const MAX_BRIDGE = Math.max(wCSS, hCSS)*0.45; // guard long jumps/wraps
+  // TRAIL — discrete stamps directly into pixel-space trail buffer
+  const STEP = Math.max(1, state.params.trailStep ?? 6);      // CSS px per stamp
+  const MAX_BRIDGE = Math.max(wCSS, hCSS) * 0.45;             // guard long jumps/wraps
 
   const tctx = trailCtx!;
   tctx.setTransform(1, 0, 0, 1, 0, 0);        // pixel space
   tctx.imageSmoothingEnabled = false;
 
   // Convert theme/size for pixel-space stamping
-  const sizeCSS = (theme.size ?? 1) * state.params.size; // same visual “size” as before
+  const sizeCSS = (theme.size ?? 1) * state.params.size;
   const sizePX  = sizeCSS * dpr;
   const themePX: Theme = {
     ...theme,
     lineWidth: (theme.lineWidth ?? 0) * dpr
   };
 
-  // user param: 0 = instant fade, 1 = infinite trail
-const t = Math.max(0, Math.min(1, state.params.trailLength ?? 1));
-
-// flip + linearize: higher = longer trail, lower = faster fade
-const erase = Math.pow(1 - t, 2.2); // 0.5 ≈ medium, 0.9 ≈ long, 0.1 ≈ short
-tctx.globalCompositeOperation = 'destination-out'; // erase alpha
-tctx.fillStyle = `rgba(0,0,0,${erase})`; // erase = amount to erase per frame (e.g. 0.05)
-tctx.fillRect(0, 0, pxW, pxH);
-tctx.globalCompositeOperation = 'source-over'; // back to normal drawing
+  // Fade: trailLength 0 → instant; 1 → infinite (inverted, smoother)
+  const tl = Math.min(1, Math.max(0, state.params.trailLength ?? 1));
+  const erase = Math.pow(1 - tl, 2.2);        // perceptual-ish
+  if (erase > 0) {
+    tctx.globalCompositeOperation = 'destination-out';
+    tctx.fillStyle = `rgba(0,0,0,${erase})`;
+    tctx.fillRect(0, 0, pxW, pxH);
+    tctx.globalCompositeOperation = 'source-over';
+  }
 
   for (let i = 0; i < count; i++) {
-    const x0 = lastX[i], y0 = lastY[i];     // CSS units
+    const x0 = lastX[i], y0 = lastY[i];
     const x1 = posX[i],  y1 = posY[i];
 
     const dx = x1 - x0, dy = y1 - y0;
-    const dist = Math.hypot(dx, dy);
+    const segDist = Math.hypot(dx, dy);
 
-    // Skip ridiculous jumps (wraps/teleports) and just resync
-    if (!isFinite(dist) || dist > MAX_BRIDGE) {
+    // Teleport/warp guard: resync stamp anchor
+    if (!isFinite(segDist) || segDist > MAX_BRIDGE) {
       lastX[i] = x1; lastY[i] = y1;
+      stampX[i] = x1; stampY[i] = y1;
+      distSinceStamp[i] = 0;
       continue;
     }
 
-    const steps = Math.max(1, Math.floor(dist / STEP));
-    const inv = 1 / steps;
+    // accumulate distance travelled this frame
+    distSinceStamp[i] += segDist;
 
-    for (let s = 1; s <= steps; s++) {
-      const t = s * inv;
-      const sx = (x0 + dx * t) * dpr;       // pixel coords
-      const sy = (y0 + dy * t) * dpr;
-      // orientation from motion (CSS vector is fine)
+    // unit direction along segment (protect zero)
+    const ux = segDist > 0 ? dx / segDist : 0;
+    const uy = segDist > 0 ? dy / segDist : 0;
+
+    // emit stamps every STEP css px from previous stamp anchor
+    while (distSinceStamp[i] >= STEP) {
+      stampX[i] += ux * STEP;
+      stampY[i] += uy * STEP;
+      distSinceStamp[i] -= STEP;
+
       drawBoid(
         tctx,
-        { x: sx, y: sy },
+        { x: stampX[i] * dpr, y: stampY[i] * dpr },   // pixel coords
         { x: dx, y: dy },
         theme.shape as ShapeKey,
         themePX,
@@ -184,17 +199,18 @@ tctx.globalCompositeOperation = 'source-over'; // back to normal drawing
       );
     }
 
-    lastX[i] = x1; lastY[i] = y1;           // advance history
+    // advance history
+    lastX[i] = x1; lastY[i] = y1;
   }
 
   // PRESENT — 1:1 blit to the on-screen canvas (pixel space)
-  ctx.setTransform(1, 0, 0, 1, 0, 0);       // pixel space
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(trailCanvas!, 0, 0);        // exact pixels, no scaling
+  ctx.drawImage(trailCanvas!, 0, 0);          // exact pixels, no scaling
 
   // OPTIONAL: live heads & debug overlays in CSS space
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);   // switch to CSS coords
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   if (state.params.visualizeAlignmentRadius || state.params.visualizeAlignmentToNeighbors) {
     const neighbors: Array<{ x: number; y: number }> = [];
