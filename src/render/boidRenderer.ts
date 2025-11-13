@@ -3,10 +3,10 @@ import type { ShapeSpec, ShapeKey } from '../geometry/boidShapes';
 import { SHAPES } from '../geometry/boidShapes';
 import type { Theme, Vec2 } from '../interface/boid';
 import { state } from '../state/state';
-import alignmentDebugViz from '../utils/alignmentDebugViz';
-import cohesionDebugViz from '../utils/cohesionDebugViz'
+import alignmentDebugViz from '../utils/debug/alignmentDebugViz';
+import cohesionDebugViz from '../utils/debug/cohesionDebugViz'
 import { gatherNeighbors } from '../utils/neighbor';
-import separationDebugViz from '../utils/separatioDebugViz'
+import separationDebugViz from '../utils/debug/separationDebugViz'
 
 /* ---------------- path cache ---------------- */
 const pathCache = new WeakMap<ShapeSpec, Path2D>();

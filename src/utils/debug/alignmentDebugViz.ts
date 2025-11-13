@@ -1,6 +1,6 @@
 // alignmentRule.ts
-import { state } from "../state/state";
-import { hexToRgba } from "./helpers";
+import { state } from "../../state/state";
+import { hexToRgba } from "../helpers";
 
 export default function alignmentDebugViz(
   boidPos: { x: number; y: number },
