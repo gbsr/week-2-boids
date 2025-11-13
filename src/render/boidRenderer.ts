@@ -6,6 +6,7 @@ import { state } from '../state/state';
 import alignmentDebugViz from '../utils/alignmentDebugViz';
 import cohesionDebugViz from '../utils/cohesionDebugViz'
 import { gatherNeighbors } from '../utils/neighbor';
+import separationDebugViz from '../utils/separatioDebugViz'
 
 /* ---------------- path cache ---------------- */
 const pathCache = new WeakMap<ShapeSpec, Path2D>();
@@ -322,4 +323,19 @@ if (state.params.visualizeCohesionRadius || state.params.visualizeCohesionToNeig
     
   }
 }
+
+if(state.params.visualizeSeparationRadius || state.params.visualizeSeparationToNeighbors) {
+  const neighborsPos: Array<{ x: number; y: number }> = [];
+  for (let i = 0; i < count; i++) {
+    neighborsPos.length = 0; // clear for this boid
+    gatherNeighbors(
+      i,
+      { x: posX, y: posY },
+      state.params.separationRadius,
+      neighborsPos           // ← pass the out-array
+    );
+    separationDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx);
+  }
+}
+
 }

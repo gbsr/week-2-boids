@@ -13,22 +13,22 @@ export default function alignmentDebugViz(
   if (state.params.visualizeAlignmentRadius) {
     ctx.beginPath();
     ctx.arc(boidPos.x, boidPos.y, state.params.alignmentRadius, 0, Math.PI * 2);
-    ctx.strokeStyle = hexToRgba(state.params.alignmentRadiusColor, state.params.alignmentRadiusAlpha * 5);
+    ctx.strokeStyle = hexToRgba(state.params.alignmentRadiusColor, state.params.alignmentRadiusAlpha * 4);
     ctx.fillStyle = hexToRgba(
-      state.params.alignmentRadiusColor, state.params.alignmentRadiusAlpha);
+      state.params.alignmentRadiusColor, state.params.alignmentRadiusAlpha * 1.2);
     ctx.lineWidth = state.params.alignmentRadiusLineWidth;
     ctx.fill()
     ctx.stroke();
   }
 
   // lines to neighbors
-  if (state.params.visualizeCohesionToNeighbors) {
+  if (state.params.visualizeAlignmentToNeighbors) {
     neighbors.forEach(neighbor => {
       ctx.beginPath();
       ctx.moveTo(boidPos.x, boidPos.y);
       ctx.lineTo(neighbor.x, neighbor.y);
-      ctx.strokeStyle = hexToRgba(state.params.cohesionRadiusColor, state.params.cohesionRadiusAlpha * 5);
-      ctx.lineWidth = state.params.cohesionRadiusLineWidth;
+      ctx.strokeStyle = hexToRgba(state.params.alignmentRadiusColor, state.params.alignmentRadiusAlpha * 4);
+      ctx.lineWidth = state.params.alignmentRadiusLineWidth;
       ctx.stroke();
     });
   }

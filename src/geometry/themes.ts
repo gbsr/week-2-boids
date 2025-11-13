@@ -87,5 +87,12 @@ export const Themes = {
     lineWidth: 1,
     shape: 'circle' as const,
     size: 1.0
+  },
+  dot: {
+    fill: '#ffffff',
+    stroke: '#ffffff',
+    lineWidth: 0.35,
+    shape: 'circle' as const,
+    size: 0.25
   }
 };

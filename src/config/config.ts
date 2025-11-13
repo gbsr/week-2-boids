@@ -8,27 +8,27 @@ export const canvasConfig = {
 
 export const boidConfig = {
   // simulation
-  boidCount: 20,
+  boidCount: 650,
   perceptionRadius: 20,
  
   // weights
-  separationWeight: 1.5,
-  alignmentWeight: 0.5,
-  cohesionWeight: 0.8,
+  separationWeight: 2,
+  alignmentWeight: 0.35,
+  cohesionWeight: 0.22,
 
   // movement
-  maxSpeed: 100,
-  maxForce: 10000,
+  maxSpeed: 140,
+  maxForce: 50,
   wrapEdges: true,
-  turnRate: 2.85,
+  turnRate: 10,
   
   // looks
   size: 1,
-  trailLength: 0.4,
-  trailAlpha: 0,
-  trailStep: 1,
-  shadowSize: 2.1,
-  shadowOpacity: 0.1,
+  trailLength: 0,
+  trailAlpha: 1,
+  trailStep: 0,
+  shadowSize: 2,
+  shadowOpacity: 1,
   randomBoidColors: false,
   randomTrailColors: false,
 
@@ -43,7 +43,8 @@ export const boidConfig = {
   // 'chevron', 
   // 'leaf', 
   // 'particle'
-  theme: 'cross' as keyof typeof Themes,
+  // 'dot'
+  theme: 'dot' as keyof typeof Themes,
 
   // perception viz
   visualizePerception: false,
@@ -52,26 +53,27 @@ export const boidConfig = {
   perceptionAlpha: 0.2,
 
   // cohesion viz
-  visualizeCohesionRadius: true,
-  visualizeCohesionToNeighbors: false,
-  cohesionRadius: 150,
+  visualizeCohesionRadius: false,
+  visualizeCohesionToNeighbors: true,
+  cohesionRadius: 800,
   cohesionRadiusColor: '#ff00ff',
-  cohesionRadiusLineWidth: 1,
-  cohesionRadiusAlpha: 0.05,
+  cohesionRadiusLineWidth: 0.1,
+  cohesionRadiusAlpha: 0.0005,
 
   // alignment viz
   visualizeAlignmentRadius: false,
   visualizeAlignmentToNeighbors: false,
-  alignmentRadius: 90,
+  alignmentRadius: 20,
   alignmentRadiusColor: '7fe29c',
-  alignmentRadiusLineWidth: 1,
-  alignmentRadiusAlpha: 0.05,
+  alignmentRadiusLineWidth: 0.1,
+  alignmentRadiusAlpha: 0.003,
   
   // separation viz
-  visualizeSeparationRadius: false,
-  separationRadius: 25,
+  visualizeSeparationRadius: true,
+  visualizeSeparationToNeighbors: false,
+  separationRadius: 5,
   separationRadiusColor: '#ff0000',
-  separationRadiusLineWidth: 1,
-  separationRadiusAlpha: 0.2,
+  separationRadiusLineWidth: 0.1,
+  separationRadiusAlpha: 0.1,
 }
 

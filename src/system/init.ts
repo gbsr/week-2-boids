@@ -56,6 +56,7 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 
   // separation viz
   param.visualizeSeparationRadius = boidConfig.visualizeSeparationRadius;
+  param.visualizeSeparationToNeighbors = boidConfig.visualizeSeparationToNeighbors;
   param.separationRadius = boidConfig.separationRadius;
   param.separationRadiusColor = boidConfig.separationRadiusColor;
   param.separationRadiusLineWidth = boidConfig.separationRadiusLineWidth;

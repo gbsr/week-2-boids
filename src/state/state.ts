@@ -55,14 +55,15 @@ export const state = {
 
     // alignment viz
     visualizeAlignmentRadius: false,
-    visualizeAlignmentToNeighbors: true,
-    alignmentRadius: 75,
+    visualizeAlignmentToNeighbors: false,
+    alignmentRadius: 15,
     alignmentRadiusColor: '#ffff00',
     alignmentRadiusLineWidth: 1,
     alignmentRadiusAlpha: 0.2,
     
     // separation viz
     visualizeSeparationRadius: false,
+    visualizeSeparationToNeighbors: false,
     separationRadius: 25,
     separationRadiusColor: '#ff0000',
     separationRadiusLineWidth: 1,

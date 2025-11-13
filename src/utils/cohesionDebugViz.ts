@@ -12,8 +12,9 @@ export default function cohesionDebugViz(
   if (state.params.visualizeCohesionRadius) {
     ctx.beginPath();
     ctx.arc(boidPos.x, boidPos.y, state.params.cohesionRadius, 0, Math.PI * 2);
-    ctx.strokeStyle = hexToRgba(state.params.cohesionRadiusColor, state.params.cohesionRadiusAlpha * 5);
-    ctx.fillStyle = hexToRgba(state.params.cohesionRadiusColor, state.params.cohesionRadiusAlpha);
+    ctx.strokeStyle = hexToRgba(state.params.cohesionRadiusColor, state.params.cohesionRadiusAlpha * 3);
+    ctx.fillStyle = hexToRgba(
+      state.params.cohesionRadiusColor, state.params.cohesionRadiusAlpha * 0.65);
     ctx.lineWidth = state.params.cohesionRadiusLineWidth;
     ctx.fill();
     ctx.stroke();

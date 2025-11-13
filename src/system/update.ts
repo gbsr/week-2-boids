@@ -2,6 +2,7 @@ import { state, type FSMState } from "../state/state";
 import { vec2lerp, vec2normalize } from "../utils/helpers";
 import alignmentSteer from "./rules/alignmentSteer";
 import cohesionSteer from "./rules/cohesionSteer"
+import separationSteer from "./rules/separationSteer"
 
 export default function update(
   dtSec: number,
@@ -33,12 +34,13 @@ export default function update(
   const len = posX.length;
   for (let i = 0; i < len; i++) {
     // 1) Steering forces
-    const alignment = alignmentSteer(i, state.arrays, state.params);
-    const cohesion = cohesionSteer(i, state.arrays, state.params);
-
+    const alignment = alignmentSteer(i, state.arrays);
+    const cohesion = cohesionSteer(i, state.arrays);
+    const separation = separationSteer(i, state.arrays);
+    const rnd = (Math.random() - 2.5) * 0.1;
     const steer = {
-      x: alignment.x + cohesion.x,
-      y: alignment.y + cohesion.y,
+      x: alignment.x + cohesion.x + separation.x + rnd,
+      y: alignment.y + cohesion.y + separation.y + rnd,
     };
 
     // 2) New candidate direction
@@ -63,4 +65,8 @@ export default function update(
       if (posY[i] > h) posY[i] = 0; if (posY[i] < 0) posY[i] = h;
     }
   }
+}
+
+function minMax(arg0: number, arg1: number) {
+  throw new Error("Function not implemented.")
 }

@@ -1,5 +1,5 @@
 // What shapes exist (expand later)
-export type ShapeKey = 'triangle' | 'circle' | 'diamond' | 'cross' | 'cake' | 'kite' | 'chevron' | 'leaf' | 'capsule' | 'wedge';
+export type ShapeKey = 'triangle' | 'circle' | 'diamond' | 'cross' | 'cake' | 'kite' | 'chevron' | 'leaf' | 'capsule' | 'wedge' | 'particle' | 'dot';
 
 export type Anchor = 'tip' | 'center';
 
@@ -167,4 +167,18 @@ export const SHAPES: Record<ShapeKey, ShapeSpec> = {
       [-10, -7],
     ],
   },
+  particle: {
+    type: 'circle',
+    anchor: 'center',
+    forward: '+x',
+    scale: 1,
+    radius: 1,
+  },
+  dot: {
+    type: 'circle',
+    anchor: 'center',
+    forward: '+x',
+    scale: 1,
+    radius: 0.2,
+  }
 };
