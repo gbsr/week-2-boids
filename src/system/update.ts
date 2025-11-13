@@ -1,9 +1,9 @@
-import { state, type FSMState } from "../state/state";
+import { flockDrift, state, type FSMState } from "../state/state";
 import { vec2lerp, vec2normalize } from "../utils/helpers";
-import { randomSteer } from "../utils/randomSteer"
+import { randomSteer } from "../utils/randomSteer";
 import alignmentSteer from "./rules/alignmentSteer";
-import cohesionSteer from "./rules/cohesionSteer"
-import separationSteer from "./rules/separationSteer"
+import cohesionSteer from "./rules/cohesionSteer";
+import separationSteer from "./rules/separationSteer";
 
 export default function update(
   dtSec: number,
@@ -12,11 +12,24 @@ export default function update(
 ) {
   if (appState !== "running") return;
 
-  const { wrapEdges, maxSpeed, turnRate, trailStep } = state.params;
+  const {
+    wrapEdges,
+    maxSpeed,
+    turnRate,
+    trailStep,
+    cohesionRadius,
+
+    speedBoostAtEdges,
+    turnBoostAtEdges,
+  } = state.params;
+
   const posX = state.arrays.position.x;
   const posY = state.arrays.position.y;
   const velX = state.arrays.velocity.x;
   const velY = state.arrays.velocity.y;
+
+  const len = posX.length;
+  if (len === 0) return;
 
   // -----------------------------------------
   // Auto-adjust maxSpeed relative to trailStep
@@ -32,7 +45,21 @@ export default function update(
   // Convert “turn rate per second” into a per-frame blend [0..1]
   const t = 1 - Math.exp(-turnRate * dtSec);
 
-  const len = posX.length;
+  // flock drift (slowly changing angle)
+  flockDrift.angle += (Math.random() - 0.5) * 0.03;
+
+  // compute drift vector
+  flockDrift.x = Math.cos(flockDrift.angle);
+  flockDrift.y = Math.sin(flockDrift.angle);
+
+  // scaled drift influence
+  const DRIFT_STRENGTH = state.params.flockDriftStrength ?? 0.1; 
+
+  // radius used for "edge factor" mapping
+  const cohRadius = cohesionRadius ?? Math.min(canvas.clientWidth, canvas.clientHeight) * 0.5;
+  const speedBoost = speedBoostAtEdges ?? 0;
+  const turnBoost  = turnBoostAtEdges  ?? 0;
+
   for (let i = 0; i < len; i++) {
     // 1) Steering forces
     const alignment = alignmentSteer(i, state.arrays);
@@ -40,20 +67,48 @@ export default function update(
     const separation = separationSteer(i, state.arrays);
     const wander = randomSteer(0.1 * state.params.maxWanderForce);
     const steer = {
-      x: alignment.x + cohesion.x + separation.x + wander.x,
-      y: alignment.y + cohesion.y + separation.y + wander.y,
+    x: alignment.x + cohesion.x + separation.x + wander.x + flockDrift.x * DRIFT_STRENGTH,
+    y: alignment.y + cohesion.y + separation.y + wander.y + flockDrift.y * DRIFT_STRENGTH,
     };
 
-    // 2) New candidate direction
+      // Compute flock center for edge biasing
+    let centerX = 0;
+    let centerY = 0;
+    for (let i = 0; i < len; i++) {
+      centerX += posX[i];
+      centerY += posY[i];
+    }
+    centerX /= len;
+    centerY /= len;
+
+    // Edge biasing
+    let speedMul = 1;
+    let turnMul  = 1;
+
+    if (cohRadius > 0 && (speedBoost !== 0 || turnBoost !== 0)) {
+      const dxC = centerX - posX[i];
+      const dyC = centerY - posY[i];
+      const distToCenter = Math.hypot(dxC, dyC);
+
+      const edgeFactor = Math.min(1, distToCenter / cohRadius); // 0 at center, →1 at edge
+
+      speedMul = 1 + edgeFactor * speedBoost;
+      turnMul  = 1 + edgeFactor * turnBoost;
+    }
+
+    // 2) New candidate direction (unchanged)
     const dirOld = vec2normalize({ x: velX[i], y: velY[i] });
     const dirNew = vec2normalize({ x: velX[i] + steer.x, y: velY[i] + steer.y });
 
-    // 3) Exponential smoothing of heading (inertia)
-    const blended = vec2normalize(vec2lerp(dirOld, dirNew, t));
+    // 3) Exponential smoothing of heading (inertia),
+    //    with slight extra turn for edge boids
+    const turnFactor = Math.min(1, t * turnMul);
+    const blended = vec2normalize(vec2lerp(dirOld, dirNew, turnFactor));
 
-    // 4) Set velocity at derived speed (px/s)
-    velX[i] = blended.x * derivedMaxSpeed;
-    velY[i] = blended.y * derivedMaxSpeed;
+    // 4) Set velocity at derived speed, with slight speed boost at edges
+    const boidSpeed = derivedMaxSpeed * speedMul;
+    velX[i] = blended.x * boidSpeed;
+    velY[i] = blended.y * boidSpeed;
 
     // 5) Integrate position with dt (px = (px/s) * s)
     posX[i] += velX[i] * dtSec;

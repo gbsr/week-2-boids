@@ -20,6 +20,7 @@ export const state = {
     wSeparation: 1.5,
     wAlignment: 1.0,
     wCohesion: 1.0,
+    flockDriftStrength: 0.2,
 
     // movement
     maxSpeed: 5,
@@ -28,6 +29,10 @@ export const state = {
     turnRate: 0.02,
     wrapEdges: true,
     needsReseed: false,
+    
+    // boost at edges
+    speedBoostAtEdges: 0.2,
+    turnBoostAtEdges: 0.5,
 
     // looks
     theme: 'cake' as keyof typeof Themes,
@@ -90,3 +95,9 @@ export const state = {
     height: 600,
   },
 }
+
+export const flockDrift = {
+  x: 0,
+  y: 0,
+  angle: Math.random() * Math.PI * 2,
+};

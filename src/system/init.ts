@@ -17,11 +17,16 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.wSeparation  = boidConfig.separationWeight;
   param.wAlignment   = boidConfig.alignmentWeight;
   param.wCohesion    = boidConfig.cohesionWeight;
+  param.flockDriftStrength = boidConfig.flockDriftStrength;
   param.maxSpeed     = boidConfig.maxSpeed;
   param.maxForce     = boidConfig.maxForce;
   param.maxWanderForce = boidConfig.maxWanderForce;
   param.wrapEdges    = boidConfig.wrapEdges;
   param.needsReseed  = true;  // force reseed at startup
+
+  // boost at edges
+  param.speedBoostAtEdges = boidConfig.speedBoostAtEdges;
+  param.turnBoostAtEdges  = boidConfig.turnBoostAtEdges;
 
   // looks
   param.theme        = boidConfig.theme;
