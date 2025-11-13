@@ -13,20 +13,22 @@ export const boidConfig = {
  
   // weights
   separationWeight: 2.25,
-  alignmentWeight: 1.15,
-  cohesionWeight: 1.62,
+  alignmentWeight: 1.75,
+  cohesionWeight: 1.92,
   flockDriftStrength: 30,
 
   // movement
   maxSpeed: 100,
   maxForce: 900,
   maxWanderForce: 1200,
-  wrapEdges: true,
+  wrapEdges: false,
   turnRate: 2,
+  boundaryMargin: 200,
+  boundaryStrength: 15000,
 
   // boost at edges
-  speedBoostAtEdges: 0.43,
-  turnBoostAtEdges: 2,
+  speedBoostAtEdges: 0.5,
+  turnBoostAtEdges: 1,
   
   // looks
   size: 0.1,

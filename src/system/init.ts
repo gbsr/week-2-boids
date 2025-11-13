@@ -23,6 +23,8 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.maxWanderForce = boidConfig.maxWanderForce;
   param.wrapEdges    = boidConfig.wrapEdges;
   param.needsReseed  = true;  // force reseed at startup
+  param.boundaryMargin = boidConfig.boundaryMargin;
+  param.boundaryStrength = boidConfig.boundaryStrength;
 
   // boost at edges
   param.speedBoostAtEdges = boidConfig.speedBoostAtEdges;

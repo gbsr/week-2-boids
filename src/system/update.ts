@@ -46,7 +46,7 @@ export default function update(
   const t = 1 - Math.exp(-turnRate * dtSec);
 
   // flock drift (slowly changing angle)
-  flockDrift.angle += (Math.random() - 0.5) * 0.03;
+  flockDrift.angle += (Math.random() - 0.5) * 0.2;
 
   // compute drift vector
   flockDrift.x = Math.cos(flockDrift.angle);
@@ -60,6 +60,21 @@ export default function update(
   const speedBoost = speedBoostAtEdges ?? 0;
   const turnBoost  = turnBoostAtEdges  ?? 0;
 
+  // compute center **once**
+  let centerX = 0;
+  let centerY = 0;
+  for (let j = 0; j < len; j++) {
+    centerX += posX[j];
+    centerY += posY[j];
+  }
+  centerX /= len;
+  centerY /= len;
+
+  // boundary avoidance params
+  const boundaryMargin   = state.params.boundaryMargin ?? 200;
+  const boundaryStrength = state.params.boundaryStrength ?? 15000;
+
+
   for (let i = 0; i < len; i++) {
     // 1) Steering forces
     const alignment = alignmentSteer(i, state.arrays);
@@ -67,19 +82,29 @@ export default function update(
     const separation = separationSteer(i, state.arrays);
     const wander = randomSteer(0.1 * state.params.maxWanderForce);
     const steer = {
-    x: alignment.x + cohesion.x + separation.x + wander.x + flockDrift.x * DRIFT_STRENGTH,
-    y: alignment.y + cohesion.y + separation.y + wander.y + flockDrift.y * DRIFT_STRENGTH,
+      x: alignment.x + cohesion.x + separation.x + wander.x + flockDrift.x * DRIFT_STRENGTH + state.params.size + 10,
+      y: alignment.y + cohesion.y + separation.y + wander.y + flockDrift.y * DRIFT_STRENGTH + state.params.size + 10,
     };
 
-      // Compute flock center for edge biasing
-    let centerX = 0;
-    let centerY = 0;
-    for (let i = 0; i < len; i++) {
-      centerX += posX[i];
-      centerY += posY[i];
+    // boundary avoidance
+    if (!wrapEdges) {
+      let bx = 0;
+      let by = 0;
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+
+      const x = posX[i];
+      const y = posY[i];
+
+      if (x < boundaryMargin)        bx += (boundaryMargin - x) / boundaryMargin;
+      else if (x > w - boundaryMargin) bx -= (x - (w - boundaryMargin)) / boundaryMargin;
+
+      if (y < boundaryMargin)        by += (boundaryMargin - y) / boundaryMargin;
+      else if (y > h - boundaryMargin) by -= (y - (h - boundaryMargin)) / boundaryMargin;
+
+      steer.x += bx * boundaryStrength;
+      steer.y += by * boundaryStrength;
     }
-    centerX /= len;
-    centerY /= len;
 
     // Edge biasing
     let speedMul = 1;
@@ -119,6 +144,13 @@ export default function update(
       const w = canvas.clientWidth, h = canvas.clientHeight;
       if (posX[i] > w) posX[i] = 0; if (posX[i] < 0) posX[i] = w;
       if (posY[i] > h) posY[i] = 0; if (posY[i] < 0) posY[i] = h;
+    } else {
+      // clamp inside when not wrapping
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (posX[i] < 0) posX[i] = 0;
+      if (posX[i] > w) posX[i] = w;
+      if (posY[i] < 0) posY[i] = 0;
+      if (posY[i] > h) posY[i] = h;
     }
   }
 }

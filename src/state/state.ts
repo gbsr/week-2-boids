@@ -29,6 +29,8 @@ export const state = {
     turnRate: 0.02,
     wrapEdges: true,
     needsReseed: false,
+    boundaryMargin: 50,
+    boundaryStrength: 0.5,
     
     // boost at edges
     speedBoostAtEdges: 0.2,
