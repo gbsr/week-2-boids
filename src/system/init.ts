@@ -19,8 +19,11 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.wCohesion    = boidConfig.cohesionWeight;
   param.maxSpeed     = boidConfig.maxSpeed;
   param.maxForce     = boidConfig.maxForce;
+  param.maxWanderForce = boidConfig.maxWanderForce;
   param.wrapEdges    = boidConfig.wrapEdges;
   param.needsReseed  = true;  // force reseed at startup
+
+  // looks
   param.theme        = boidConfig.theme;
   param.turnRate    = boidConfig.turnRate;
   param.size        = boidConfig.size;
@@ -31,6 +34,8 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   param.shadowOpacity = boidConfig.shadowOpacity;
   param.randomBoidColors = boidConfig.randomBoidColors;
   param.randomTrailColors = boidConfig.randomTrailColors;
+  param.debugSampleStride = boidConfig.debugSampleStride;
+  param.maxDebugNeighbors = boidConfig.maxDebugNeighbors;
 
   // perception viz
   param.visualizePerception = boidConfig.visualizePerception;

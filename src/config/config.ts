@@ -8,29 +8,32 @@ export const canvasConfig = {
 
 export const boidConfig = {
   // simulation
-  boidCount: 450,
+  boidCount: 685,
   perceptionRadius: 20,
  
   // weights
-  separationWeight: 2,
-  alignmentWeight: 0.35,
-  cohesionWeight: 0.22,
+  separationWeight: 1.25,
+  alignmentWeight: 1,
+  cohesionWeight: 0.72,
 
   // movement
-  maxSpeed: 140,
-  maxForce: 50,
+  maxSpeed: 120,
+  maxForce: 140,
+  maxWanderForce: 1800,
   wrapEdges: true,
-  turnRate: 10,
+  turnRate: 7,
   
   // looks
-  size: 1,
-  trailLength: 0,
+  size: 0.1,
+  trailLength: 0.55,
   trailAlpha: 1,
-  trailStep: 1,
-  shadowSize: 2,
-  shadowOpacity: 0,
+  trailStep: 0,
+  shadowSize: 4,
+  shadowOpacity: 1,
   randomBoidColors: false,
   randomTrailColors: false,
+  debugSampleStride: 4,
+  maxDebugNeighbors: 2000,
 
   // Visual theme.
   // available themes: 
@@ -54,8 +57,8 @@ export const boidConfig = {
 
   // cohesion viz
   visualizeCohesionRadius: false,
-  visualizeCohesionToNeighbors: true,
-  cohesionRadius: 800,
+  visualizeCohesionToNeighbors: false,
+  cohesionRadius: 320,
   cohesionRadiusColor: '#ff00ff',
   cohesionRadiusLineWidth: 0.1,
   cohesionRadiusAlpha: 0.0005,
@@ -65,15 +68,15 @@ export const boidConfig = {
   visualizeAlignmentToNeighbors: false,
   alignmentRadius: 20,
   alignmentRadiusColor: '7fe29c',
-  alignmentRadiusLineWidth: 0.1,
-  alignmentRadiusAlpha: 0.003,
+  alignmentRadiusLineWidth: 1,
+  alignmentRadiusAlpha: 0.0025,
   
   // separation viz
-  visualizeSeparationRadius: true,
-  visualizeSeparationToNeighbors: false,
-  separationRadius: 5,
+  visualizeSeparationRadius: false,
+  visualizeSeparationToNeighbors: true,
+  separationRadius: 7,
   separationRadiusColor: '#ff0000',
-  separationRadiusLineWidth: 0.1,
-  separationRadiusAlpha: 0.1,
+  separationRadiusLineWidth: 2,
+  separationRadiusAlpha: 0.005,
 }
 

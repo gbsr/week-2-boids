@@ -24,6 +24,7 @@ export const state = {
     // movement
     maxSpeed: 5,
     maxForce: 0.03,
+    maxWanderForce: 0.1,
     turnRate: 0.02,
     wrapEdges: true,
     needsReseed: false,
@@ -38,6 +39,8 @@ export const state = {
     shadowOpacity: 0.1,
     randomBoidColors: false,
     randomTrailColors: false,
+    debugSampleStride: 300,
+    maxDebugNeighbors: 300,
 
     // perception viz
     visualizePerception: false,

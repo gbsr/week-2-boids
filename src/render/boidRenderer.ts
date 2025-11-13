@@ -292,50 +292,81 @@ for (let i = 0; i < count; i++) {
 }
 
 // Optional overlays on top of heads
+// ---------------------------------
+
+// Reuse a single neighbors array to avoid allocations each frame
+const neighborsPos: Array<{ x: number; y: number }> = [];
+
+// How many boids to actually visualize in debug
+// - If state.params.debugSampleStride is set, use that.
+// - Otherwise derive a stride so we never debug more than ~200 boids.
+const debugStride =
+  state.params.debugSampleStride && state.params.debugSampleStride > 0
+    ? state.params.debugSampleStride
+    : Math.max(1, Math.floor(count / 200));
+
+// Cap how many neighbors we actually draw per boid.
+// You can expose this as a param later if you want.
+const maxDebugNeighbors =
+  state.params.maxDebugNeighbors && state.params.maxDebugNeighbors > 0
+    ? state.params.maxDebugNeighbors
+    : 16;
+
 if (state.params.visualizeAlignmentRadius || state.params.visualizeAlignmentToNeighbors) {
-  const neighborsPos: Array<{ x: number; y: number }> = [];
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i += debugStride) {
     neighborsPos.length = 0; // clear for this boid
+
     gatherNeighbors(
       i,
       { x: posX, y: posY },
       state.params.alignmentRadius,
-      neighborsPos           // ← pass the out-array
+      neighborsPos
     );
-    alignmentDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx)
-    
-    
+
+    // Clamp neighbor count so we don't draw insane amounts of lines
+    if (neighborsPos.length > maxDebugNeighbors) {
+      neighborsPos.length = maxDebugNeighbors;
+    }
+
+    alignmentDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx);
   }
 }
 
 if (state.params.visualizeCohesionRadius || state.params.visualizeCohesionToNeighbors) {
-  const neighborsPos: Array<{ x: number; y: number }> = [];
-  for (let i = 0; i < count; i++) {
-    neighborsPos.length = 0; // clear for this boid
+  for (let i = 0; i < count; i += debugStride) {
+    neighborsPos.length = 0;
+
     gatherNeighbors(
       i,
       { x: posX, y: posY },
       state.params.cohesionRadius,
-      neighborsPos           // ← pass the out-array
+      neighborsPos
     );
-    cohesionDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx)
-    
-    
+
+    if (neighborsPos.length > maxDebugNeighbors) {
+      neighborsPos.length = maxDebugNeighbors;
+    }
+
+    cohesionDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx);
   }
 }
 
-if(state.params.visualizeSeparationRadius || state.params.visualizeSeparationToNeighbors) {
-  const neighborsPos: Array<{ x: number; y: number }> = [];
-  for (let i = 0; i < count; i++) {
-    neighborsPos.length = 0; // clear for this boid
+if (state.params.visualizeSeparationRadius || state.params.visualizeSeparationToNeighbors) {
+  for (let i = 0; i < count; i += debugStride) {
+    neighborsPos.length = 0;
+
     gatherNeighbors(
       i,
       { x: posX, y: posY },
       state.params.separationRadius,
-      neighborsPos           // ← pass the out-array
+      neighborsPos
     );
+
+    if (neighborsPos.length > maxDebugNeighbors) {
+      neighborsPos.length = maxDebugNeighbors;
+    }
+
     separationDebugViz({ x: posX[i], y: posY[i] }, neighborsPos, ctx);
   }
 }
-
 }

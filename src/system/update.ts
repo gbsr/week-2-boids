@@ -1,5 +1,6 @@
 import { state, type FSMState } from "../state/state";
 import { vec2lerp, vec2normalize } from "../utils/helpers";
+import { randomSteer } from "../utils/randomSteer"
 import alignmentSteer from "./rules/alignmentSteer";
 import cohesionSteer from "./rules/cohesionSteer"
 import separationSteer from "./rules/separationSteer"
@@ -37,10 +38,10 @@ export default function update(
     const alignment = alignmentSteer(i, state.arrays);
     const cohesion = cohesionSteer(i, state.arrays);
     const separation = separationSteer(i, state.arrays);
-    const rnd = (Math.random() - 2.5) * 0.1;
+    const wander = randomSteer(0.1 * state.params.maxWanderForce);
     const steer = {
-      x: alignment.x + cohesion.x + separation.x + rnd,
-      y: alignment.y + cohesion.y + separation.y + rnd,
+      x: alignment.x + cohesion.x + separation.x + wander.x,
+      y: alignment.y + cohesion.y + separation.y + wander.y,
     };
 
     // 2) New candidate direction
