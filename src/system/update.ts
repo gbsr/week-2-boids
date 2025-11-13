@@ -67,7 +67,3 @@ export default function update(
     }
   }
 }
-
-function minMax(arg0: number, arg1: number) {
-  throw new Error("Function not implemented.")
-}
