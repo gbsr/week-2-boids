@@ -8,7 +8,7 @@ export const canvasConfig = {
 
 export const boidConfig = {
   // simulation
-  boidCount: 650,
+  boidCount: 450,
   perceptionRadius: 20,
  
   // weights
@@ -26,9 +26,9 @@ export const boidConfig = {
   size: 1,
   trailLength: 0,
   trailAlpha: 1,
-  trailStep: 0,
+  trailStep: 1,
   shadowSize: 2,
-  shadowOpacity: 1,
+  shadowOpacity: 0,
   randomBoidColors: false,
   randomTrailColors: false,
 
