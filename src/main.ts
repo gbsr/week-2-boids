@@ -5,12 +5,14 @@ import update from './system/update'
 import { state } from './state/state'
 import syncBoidCount from './system/syncBoidCount'
 import { Themes } from './geometry/themes'
+import { buildUI } from './system/ui/domBuilder'
+import { controls } from './system/ui/controlConfig'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div class="main-content">
     <div class="aside">
       <h1>Boids Simulation</h1>
-      <div class="controls"></div>
+      <div class="controls" id="ui-panel"></div>
     </div>
     <div class="canvasWrapper">
       <canvas id="boidsCanvas"></canvas>
@@ -25,6 +27,16 @@ state.fsm.state = 'running';
 
 // actually init on the first frame lol
 init(canvas, ctx);
+
+window.addEventListener("DOMContentLoaded", () => {
+  const panel = document.getElementById("ui-panel");
+  if (!panel) {
+    console.error("UI panel not found");
+    return;
+  }
+
+  buildUI(controls, panel);
+});
 
 let lastTs = performance.now();
 function animate(ts: number) {
