@@ -8,24 +8,24 @@ export const canvasConfig = {
 
 export const boidConfig = {
   // simulation
-  boidCount: 685,
+  boidCount: 1685,
   perceptionRadius: 20,
  
   // weights
   separationWeight: 1.25,
-  alignmentWeight: 1,
-  cohesionWeight: 0.72,
+  alignmentWeight: 1.15,
+  cohesionWeight: 0.62,
 
   // movement
   maxSpeed: 120,
   maxForce: 140,
   maxWanderForce: 1800,
   wrapEdges: true,
-  turnRate: 7,
+  turnRate: 6,
   
   // looks
   size: 0.1,
-  trailLength: 0.55,
+  trailLength: 0.15,
   trailAlpha: 1,
   trailStep: 0,
   shadowSize: 4,
@@ -60,16 +60,16 @@ export const boidConfig = {
   visualizeCohesionToNeighbors: false,
   cohesionRadius: 320,
   cohesionRadiusColor: '#ff00ff',
-  cohesionRadiusLineWidth: 0.1,
-  cohesionRadiusAlpha: 0.0005,
+  cohesionRadiusLineWidth: 0.01,
+  cohesionRadiusAlpha: 0.0003,
 
   // alignment viz
   visualizeAlignmentRadius: false,
-  visualizeAlignmentToNeighbors: false,
+  visualizeAlignmentToNeighbors: true,
   alignmentRadius: 20,
   alignmentRadiusColor: '7fe29c',
-  alignmentRadiusLineWidth: 1,
-  alignmentRadiusAlpha: 0.0025,
+  alignmentRadiusLineWidth: 0.1,
+  alignmentRadiusAlpha: 0.03,
   
   // separation viz
   visualizeSeparationRadius: false,
