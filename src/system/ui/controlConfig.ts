@@ -45,4 +45,24 @@ export const controls: UIControl[] = [
     label: "Shape",
     options: makeShapeOptions(),
   },
+
+  {
+    kind: "checkbox",
+    group: "Movement",
+    paramId: "wrapEdges",
+    label: "Wrap edges",
+    defaultValue: true,
+  },
+  {
+    kind: "checkbox",
+    group: "Debug",
+    paramId: "visualizeAlignmentRadius",
+    label: "Show alignment radius",
+  },
+  {
+    kind: "checkbox",
+    group: "Debug",
+    paramId: "visualizeCohesionRadius",
+    label: "Show cohesion radius",
+  },
 ];

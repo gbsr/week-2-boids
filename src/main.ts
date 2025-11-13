@@ -35,7 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  buildUI(controls, panel);
+  buildUI(panel);
 });
 
 let lastTs = performance.now();

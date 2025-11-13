@@ -1,4 +1,5 @@
-import type { Themes } from "../geometry/themes"
+import { paramDefs } from "./paramDefaults"
+export type ParamDefs = typeof paramDefs
 
 export const canvasConfig = {
   backgroundColor: '#000000',
@@ -6,84 +7,12 @@ export const canvasConfig = {
   // boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
 }
 
-export const boidConfig = {
-  // simulation
-  boidCount: 650,
-  perceptionRadius: 20,
- 
-  // weights
-  separationWeight: 2.25,
-  alignmentWeight: 1.75,
-  cohesionWeight: 1.92,
-  flockDriftStrength: 30,
+// config/boidConfig.ts
+export type BoidConfig = {
+  [K in keyof ParamDefs]: ParamDefs[K]["default"];
+};
 
-  // movement
-  maxSpeed: 100,
-  maxForce: 900,
-  maxWanderForce: 1200,
-  wrapEdges: false,
-  turnRate: 2,
-  boundaryMargin: 200,
-  boundaryStrength: 15000,
-
-  // boost at edges
-  speedBoostAtEdges: 0.5,
-  turnBoostAtEdges: 1,
-  
-  // looks
-  size: 0.1,
-  trailLength: 0.15,
-  trailAlpha: 1,
-  trailStep: 0,
-  shadowSize: 4,
-  shadowOpacity: 1,
-  randomBoidColors: false,
-  randomTrailColors: false,
-  debugSampleStride: 8,
-  maxDebugNeighbors: 200,
-
-  // Visual theme.
-  // available themes: 
-  // 'triangle', 
-  // 'circle', 
-  // 'diamond', 
-  // 'cross', 
-  // 'arrow', 
-  // 'kite', 
-  // 'chevron', 
-  // 'leaf', 
-  // 'particle'
-  // 'dot'
-  theme: 'dot' as keyof typeof Themes,
-
-  // perception viz
-  visualizePerception: false,
-  perceptionColor: '#00ff00',
-  perceptionLineWidth: 1,
-  perceptionAlpha: 0.2,
-
-  // cohesion viz
-  visualizeCohesionRadius: false,
-  visualizeCohesionToNeighbors: false,
-  cohesionRadius: 320,
-  cohesionRadiusColor: '#ff00ff',
-  cohesionRadiusLineWidth: 0.01,
-  cohesionRadiusAlpha: 0.0003,
-
-  // alignment viz
-  visualizeAlignmentRadius: false,
-  visualizeAlignmentToNeighbors: true,
-  alignmentRadius: 30,
-  alignmentRadiusColor: '7fe29c',
-  alignmentRadiusLineWidth: 0.1,
-  alignmentRadiusAlpha: 0.01,
-  
-  // separation viz
-  visualizeSeparationRadius: false,
-  visualizeSeparationToNeighbors: true,
-  separationRadius: 5,
-  separationRadiusColor: '#ff0000',
-  separationRadiusLineWidth: 2,
-  separationRadiusAlpha: 0.03,
-}
+export const boidConfig: BoidConfig = Object.fromEntries(
+  Object.entries(paramDefs).map(([key, def]) => [key, (def as any).default])
+) as BoidConfig;
 
