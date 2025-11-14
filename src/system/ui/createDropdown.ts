@@ -1,4 +1,5 @@
 import type { DropdownControl } from "../../interface/controlTypes"
+import { onParamChanged } from "../../state/onParamChanged"
 import { state } from "../../state/state"
 
 export default function createDropdown(ctrl: DropdownControl): HTMLElement {
@@ -33,6 +34,7 @@ export default function createDropdown(ctrl: DropdownControl): HTMLElement {
   // Write into state.params
   select.addEventListener("change", () => {
     (state.params as any)[ctrl.paramId] = select.value;
+    onParamChanged(ctrl.paramId);
   });
 
   wrapper.appendChild(select);

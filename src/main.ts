@@ -6,7 +6,6 @@ import { state } from './state/state'
 import syncBoidCount from './system/syncBoidCount'
 import { Themes } from './geometry/themes'
 import { buildUI } from './system/ui/domBuilder'
-import { controls } from './system/ui/controlConfig'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div class="main-content">

@@ -82,8 +82,8 @@ export default function update(
     const separation = separationSteer(i, state.arrays);
     const wander = randomSteer(0.1 * state.params.maxWanderForce);
     const steer = {
-      x: alignment.x + cohesion.x + separation.x + wander.x + flockDrift.x * DRIFT_STRENGTH + state.params.size + 10,
-      y: alignment.y + cohesion.y + separation.y + wander.y + flockDrift.y * DRIFT_STRENGTH + state.params.size + 10,
+      x: alignment.x + cohesion.x + separation.x + wander.x + flockDrift.x * DRIFT_STRENGTH,
+      y: alignment.y + cohesion.y + separation.y + wander.y + flockDrift.y * DRIFT_STRENGTH,
     };
 
     // boundary avoidance
@@ -110,7 +110,7 @@ export default function update(
     let speedMul = 1;
     let turnMul  = 1;
 
-    if (cohRadius > 0 && (speedBoost !== 0 || turnBoost !== 0)) {
+    if (cohRadius > 0 && (speedBoost.valueOf() !== 0 || turnBoost.valueOf() !== 0)) {
       const dxC = centerX - posX[i];
       const dyC = centerY - posY[i];
       const distToCenter = Math.hypot(dxC, dyC);
@@ -153,4 +153,6 @@ export default function update(
       if (posY[i] > h) posY[i] = h;
     }
   }
+
+  
 }

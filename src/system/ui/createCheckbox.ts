@@ -1,4 +1,5 @@
 import type { CheckboxControl } from "../../interface/controlTypes";
+import { onParamChanged } from "../../state/onParamChanged"
 import { state } from "../../state/state";
 
 export default function createCheckbox(ctrl: CheckboxControl): HTMLElement {
@@ -24,6 +25,7 @@ export default function createCheckbox(ctrl: CheckboxControl): HTMLElement {
   // Write back into state.params as a boolean
   input.addEventListener("input", () => {
     (state.params as any)[ctrl.paramId] = input.checked;
+    onParamChanged(ctrl.paramId);
   });
 
   wrapper.appendChild(input);

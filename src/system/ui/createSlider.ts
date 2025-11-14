@@ -1,4 +1,5 @@
 import type { SliderControl } from "../../interface/controlTypes";
+import { onParamChanged } from "../../state/onParamChanged"
 import { state } from "../../state/state";
 
 export default function createSlider(ctrl: SliderControl): HTMLElement {
@@ -28,6 +29,7 @@ export default function createSlider(ctrl: SliderControl): HTMLElement {
   // Write back into state.params as a number
   input.addEventListener("input", () => {
     (state.params as any)[ctrl.paramId] = Number(input.value);
+    onParamChanged(ctrl.paramId);
   });
 
   wrapper.appendChild(input);

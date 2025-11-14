@@ -1,4 +1,4 @@
-export type ControlKind = "slider" | "dropdown" | "checkbox";
+export type ControlKind = "slider" | "dropdown" | "checkbox" | "spacer";
 
 interface BaseControl<K extends ControlKind> {
   kind: K;
@@ -8,6 +8,7 @@ interface BaseControl<K extends ControlKind> {
   label: string;
   help?: string;
   group?: string;
+  spacer?: any;
 }
 
 export interface SliderControl extends BaseControl<"slider"> {
@@ -29,8 +30,12 @@ export interface DropdownControl<T = string> extends BaseControl<"dropdown"> {
   defaultValue?: T;
 }
 
+export interface SpacerControl extends BaseControl<"spacer"> {
+ // probably style this
+}
+
 export interface CheckboxControl extends BaseControl<"checkbox"> {
   defaultValue?: boolean;
 }
 
-export type UIControl = SliderControl | DropdownControl | CheckboxControl;
+export type UIControl = SliderControl | DropdownControl | CheckboxControl | SpacerControl;
