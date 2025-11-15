@@ -42,9 +42,10 @@ export const paramDefs = {
     default: 20,
     group: "Simulation",
     label: "Perception",
-    control: "none",  // hide for now, not implemented yet
+    control: "none", // hide for now, not implemented yet
     slider: { min: 5, max: 200, step: 1 },
   },
+
 // interaction
   attractMouse: {
     default: false,
@@ -62,8 +63,9 @@ export const paramDefs = {
   },
   spacer_mouseCheckBoxes: {
     default: 0,
-    control: "spacer",
     group: "Interaction",
+    control: "none", // hide for now, not implemented yet
+    // control: "spacer",
   },
   mouseRadius: {
     default: 10,
@@ -87,8 +89,6 @@ export const paramDefs = {
     control: "none", // hide for now, not implemented yet
     slider: { min: 0, max: 500, step: 0.1 },
   },
-
-  
   mouseRepelWeight: {
     default: 25,
     group: "Interaction",
@@ -98,7 +98,7 @@ export const paramDefs = {
     slider: { min: 0, max: 500, step: 0.1 },
   },
 
-// flocking
+  // flocking
   separationWeight: {
     default: 0.75,
     group: "Flocking",
@@ -112,13 +112,12 @@ export const paramDefs = {
     label: "Radius",
     control: "slider",
     slider: { min: 0, max: 380, step: 0.5 },
-},
+  },
   spacer_separation: {
     default: 0,
-    control: "spacer",
     group: "Flocking",
+    control: "spacer",
   },
-
   alignmentWeight: {
     default: 0.05,
     group: "Flocking",
@@ -126,7 +125,6 @@ export const paramDefs = {
     control: "slider",
     slider: { min: 0, max: 3, step: 0.001 },
   },
-
   alignmentRadius: {
     default: 30,
     group: "Flocking",
@@ -136,10 +134,9 @@ export const paramDefs = {
   },
   spacer_alignment: {
     default: 0,
-    control: "spacer",
     group: "Flocking",
+    control: "spacer",
   },
-
   cohesionWeight: {
     default: 0.92,
     group: "Flocking",
@@ -156,13 +153,8 @@ export const paramDefs = {
   },
   spacer_cohesion: {
     default: 0,
-    control: "spacer",
     group: "Flocking",
-  },
-  spacer_ruleWeights: {
-    default: 0,
     control: "spacer",
-    group: "Flocking",
   },
   maxForce: {
     default: 10,
@@ -173,27 +165,26 @@ export const paramDefs = {
   },
   spacer_MaxForce: {
     default: 0,
-    control: "spacer",
     group: "Flocking",
+    control: "spacer",
   },
+
   flockDriftStrength: {
     default: 3,
     group: "Flocking",
-    label: "Drift strength",
+    label: "Flock Drift",
     control: "slider",
     slider: { min: 0, max: 10, step: 0.001 },
   },
-
   spacer: {
     default: 0,
-    control: "spacer",
     group: "Flocking",
+    control: "spacer",
   },
-
   speedBoostAtEdges: {
     default: 0.3,
     group: "Flocking",
-    label: "Acceleration-force when far from flock",
+    label: "Accelerate when far from flock",
     control: "slider",
     slider: { min: 0, max: 1, step: 0.001 },
   },
@@ -205,14 +196,13 @@ export const paramDefs = {
     slider: { min: 0, max: 2, step: 0.001 },
   },
 
-
-// movement
+  // movement
   maxSpeed: {
     default: 20,
     group: "Movement",
     label: "Max speed",
     control: "slider",
-    slider: { min: 1, max: 50, step: 0.001 },
+    slider: { min: 1, max: 250, step: 0.001 },
   },
   turnRate: {
     default: 10,
@@ -221,7 +211,6 @@ export const paramDefs = {
     control: "slider",
     slider: { min: 0.01, max: 50, step: 0.1 },
   },
-  
   maxWanderForce: {
     default: 20,
     group: "Movement",
@@ -231,22 +220,16 @@ export const paramDefs = {
   },
   spacer_wander: {
     default: 0,
+    group: "Movement",
     control: "spacer",
-    group: "Movement",
-  },
-  wrapEdges: {
-    default: false,
-    group: "Movement",
-    label: "Wrap edges",
-    control: "checkbox",
   },
 
+  // edge / bounds
   spacer_wrapEdges: {
     default: 0,
-    control: "spacer",
     group: "Edge",
+    control: "spacer",
   },
-  
   boundaryMargin: {
     default: 200,
     group: "Edge",
@@ -268,7 +251,7 @@ export const paramDefs = {
     group: "Render",
     label: "Size",
     control: "slider",
-    slider: { min: 0.01, max: 2, step: 0.01 },
+    slider: { min: 0.01, max: 10, step: 0.01 },
   },
   trailLength: {
     default: 0.15,
@@ -281,7 +264,8 @@ export const paramDefs = {
     default: 1,
     group: "Render",
     label: "Trail alpha",
-    control: "slider",
+    // control: "slider",
+    control: "none", // hide for now, not implemented yet
     slider: { min: 0, max: 1, step: 0.01 },
   },
   trailStep: {
@@ -317,184 +301,179 @@ export const paramDefs = {
     label: "Random trail colors",
     control: "checkbox",
   },
-
   theme: {
     default: "cross" as keyof typeof Themes,
     group: "Render",
     label: "Theme",
     control: "dropdown",
-    dropdown: { options: ["triangle","circle","diamond","cross","cake","kite","chevron","leaf","particle","dot"] },
+    dropdown: {
+      options: [
+        "triangle",
+        "circle",
+        "diamond",
+        "cross",
+        "cake",
+        "kite",
+        "chevron",
+        "leaf",
+        "particle",
+        "dot",
+      ],
+    },
     affects: "render-cache",
   },
 
-// debug
-  // perception viz
-visualizePerception: {
-  default: false,
-  group: "Debug - Perception",
-  label: "Show perception radius",
-  control: "checkbox",
-},
+// debug - perception
+  visualizePerception: {
+    default: false,
+    group: "Debug - Perception",
+    label: "Show perception radius",
+    // control: "checkbox",
+    control: "none", // not implemented yet
+  },
+  perceptionColor: {
+    default: "#00ff00",
+    group: "Debug - Perception",
+    label: "Perception color",
+    control: "none", // not implemented yet
+  },
+  perceptionLineWidth: {
+    default: 1,
+    group: "Debug - Perception",
+    label: "Perception line width",
+    // control: "slider",
+    control: "none", // hide for now, not implemented yet
+    slider: { min: 0.1, max: 5, step: 0.1 },
+  },
+  perceptionAlpha: {
+    default: 0.3,
+    group: "Debug - Perception",
+    label: "Perception alpha",
+    // control: "slider",
+    control: "none", // hide for now, not implemented yet
+    slider: { min: 0, max: 0.5, step: 0.0001 },
+  },
 
-perceptionColor: {
-  default: "#00ff00",
-  group: "Debug - Perception",
-  label: "Perception color",
-  control: "none"
-},
+// debug - cohesion
+  visualizeCohesionRadius: {
+    default: false,
+    group: "Debug - Cohesion",
+    label: "Show cohesion radius",
+    control: "checkbox",
+  },
+  visualizeCohesionToNeighbors: {
+    default: false,
+    group: "Debug - Cohesion",
+    label: "Show cohesion → neighbors",
+    control: "checkbox",
+  },
+  cohesionRadiusColor: {
+    default: "#ff00ff",
+    group: "Debug - Cohesion",
+    label: "Cohesion radius color",
+    control: "none",
+  },
+  cohesionRadiusLineWidth: {
+    default: 4,
+    group: "Debug - Cohesion",
+    label: "Cohesion line width",
+    control: "slider",
+    slider: { min: 0.001, max: 3, step: 0.001 },
+  },
+  cohesionRadiusAlpha: {
+    default: 0.03,
+    group: "Debug - Cohesion",
+    label: "Cohesion alpha",
+    control: "slider",
+    slider: { min: 0, max: 0.05, step: 0.0001 },
+  },
 
-perceptionLineWidth: {
-  default: 1,
-  group: "Debug - Perception",
-  label: "Perception line width",
-  control: "slider",
-  slider: { min: 0.1, max: 5, step: 0.1 },
-},
+// debug - alignment
+  visualizeAlignmentRadius: {
+    default: false,
+    group: "Debug - Alignment",
+    label: "Show alignment radius",
+    control: "checkbox",
+  },
+  visualizeAlignmentToNeighbors: {
+    default: false,
+    group: "Debug - Alignment",
+    label: "Show alignment → neighbors",
+    control: "checkbox",
+  },
+  alignmentRadiusColor: {
+    default: "#7fe29c",
+    group: "Debug - Alignment",
+    label: "Alignment radius color",
+    control: "none", // expose later?
+  },
+  alignmentRadiusLineWidth: {
+    default: 1,
+    group: "Debug - Alignment",
+    label: "Alignment line width",
+    control: "slider",
+    slider: { min: 0.001, max: 3, step: 0.01 },
+  },
+  alignmentRadiusAlpha: {
+    default: 0.03,
+    group: "Debug - Alignment",
+    label: "Alignment alpha",
+    control: "slider",
+    slider: { min: 0, max: 0.05, step: 0.0001 },
+  },
 
-perceptionAlpha: {
-  default: 0.3,
-  group: "Debug - Perception",
-  label: "Perception alpha",
-  control: "slider",
-  slider: { min: 0, max: 0.5, step: 0.0001 },
-},
+// debug - separation
+  visualizeSeparationRadius: {
+    default: false,
+    group: "Debug - Separation",
+    label: "Show separation radius",
+    control: "checkbox",
+  },
+  visualizeSeparationToNeighbors: {
+    default: false,
+    group: "Debug - Separation",
+    label: "Show separation → neighbors",
+    control: "checkbox",
+  },
+  separationRadiusColor: {
+    default: "#ff0000",
+    group: "Debug - Separation",
+    label: "Separation radius color",
+    control: "none", // expose later?
+  },
+  separationRadiusLineWidth: {
+    default: 4,
+    group: "Debug - Separation",
+    label: "Separation line width",
+    control: "slider",
+    slider: { min: 0.01, max: 3, step: 0.01 },
+  },
+  separationRadiusAlpha: {
+    default: 0.03,
+    group: "Debug - Separation",
+    label: "Separation alpha",
+    control: "slider",
+    slider: { min: 0, max: 0.05, step: 0.0001 },
+  },
 
-// cohesion viz
-visualizeCohesionRadius: {
-  default: false,
-  group: "Debug - Cohesion",
-  label: "Show cohesion radius",
-  control: "checkbox",
-},
-
-visualizeCohesionToNeighbors: {
-  default: false,
-  group: "Debug - Cohesion",
-  label: "Show cohesion → neighbors",
-  control: "checkbox",
-},
-
-
-
-cohesionRadiusColor: {
-  default: "#ff00ff",
-  group: "Debug - Cohesion",
-  label: "Cohesion radius color",
-  control: "none",
-},
-
-cohesionRadiusLineWidth: {
-  default: 4,
-  group: "Debug - Cohesion",
-  label: "Cohesion line width",
-  control: "slider",
-  slider: { min: 0.001, max: 3, step: 0.001 },
-},
-
-cohesionRadiusAlpha: {
-  default: 0.03,
-  group: "Debug - Cohesion",
-  label: "Cohesion alpha",
-  control: "slider",
-  slider: { min: 0, max: 0.05, step: 0.0001 },
-},
-
-// alignment viz
-visualizeAlignmentRadius: {
-  default: false,
-  group: "Debug - Alignment",
-  label: "Show alignment radius",
-  control: "checkbox",
-},
-
-visualizeAlignmentToNeighbors: {
-  default: false,
-  group: "Debug - Alignment",
-  label: "Show alignment → neighbors",
-  control: "checkbox",
-},
-
-
-alignmentRadiusColor: {
-  default: "#7fe29c",
-  group: "Debug - Alignment",
-  label: "Alignment radius color",
-  control: "none",
-},
-
-alignmentRadiusLineWidth: {
-  default: 1,
-  group: "Debug - Alignment",
-  label: "Alignment line width",
-  control: "slider",
-  slider: { min: 0.001, max: 3, step: 0.01 },
-},
-
-alignmentRadiusAlpha: {
-  default: 0.03,
-  group: "Debug - Alignment",
-  label: "Alignment alpha",
-  control: "slider",
-  slider: { min: 0, max: 0.05, step: 0.0001 },
-},
-
-// separation viz
-visualizeSeparationRadius: {
-  default: false,
-  group: "Debug - Separation",
-  label: "Show separation radius",
-  control: "checkbox",
-},
-
-visualizeSeparationToNeighbors: {
-  default: false,
-  group: "Debug - Separation",
-  label: "Show separation → neighbors",
-  control: "checkbox",
-},
-
-
-separationRadiusColor: {
-  default: "#ff0000",
-  group: "Debug - Separation",
-  label: "Separation radius color",
-  control: "none",
-},
-
-separationRadiusLineWidth: {
-  default: 4,
-  group: "Debug - Separation",
-  label: "Separation line width",
-  control: "slider",
-  slider: { min: 0.1, max: 10, step: 0.1 },
-},
-
-separationRadiusAlpha: {
-  default: 0.03,
-  group: "Debug - Separation",
-  label: "Separation alpha",
-  control: "slider",
-  slider: { min: 0, max: 0.5, step: 0.0001 },
-},
-
-debugSampleStride: {
-  default: 4,
-  group: "Debug",
-  label: "Debug sample stride",
-  control: "slider",
-  slider: { min: 1, max: 10, step: 1 },
-},
-
-maxDebugNeighbors: {
-  default: 200,
-  group: "Debug",
-  label: "Max debug neighbors",
-  control: "slider",
-  slider: { min: 1, max: 50, step: 1 },
-},
+// debug - misc
+  debugSampleStride: {
+    default: 4,
+    group: "Debug",
+    label: "Debug sample stride",
+    // control: "slider",
+    control: "none", // hide for now, not interesting for user
+    slider: { min: 1, max: 10, step: 1 },
+  },
+  maxDebugNeighbors: {
+    default: 200,
+    group: "Debug",
+    label: "Max debug neighbors",
+    // control: "slider",
+    control: "none", // hide for now, not interesting for user
+    slider: { min: 1, max: 450, step: 1 },
+  },
 } as const;
-
-
 // runtime helpers
 // For each key, take its `default` type
 type ParamDefs = typeof paramDefs;

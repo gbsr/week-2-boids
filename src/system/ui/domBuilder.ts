@@ -57,7 +57,8 @@ export function buildUI(container: HTMLElement) {
 
       entry = { section, content };
       groupSections.set(groupName, entry);
-      container.appendChild(section);
+
+      
     }
 
     // we always append controls into the content div
@@ -113,6 +114,14 @@ export function buildUI(container: HTMLElement) {
         label,
       };
       section.appendChild(createSpacer());
+    }
+  }
+
+  // After all controls are created:
+  // only append groups that actually contain controls.
+  for (const { section, content } of groupSections.values()) {
+    if (content.children.length > 0) {
+      container.appendChild(section);
     }
   }
 }
