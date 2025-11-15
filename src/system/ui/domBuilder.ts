@@ -112,7 +112,7 @@ export function buildUI(container: HTMLElement) {
         paramId,
         label,
       };
-      section.appendChild(createSpacer(ctrl));
+      section.appendChild(createSpacer());
     }
   }
 }

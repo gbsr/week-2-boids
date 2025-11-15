@@ -29,34 +29,36 @@ export type ParamDef<T = any> =
   | (ParamDefBase<T> & { control: "none" }); // for things without UI controls
 
 export const paramDefs = {
-  // simulation
+// simulation
   boidCount: {
     default: 650,
     group: "Simulation",
     label: "Number of Boids",
     control: "slider",
-    slider: { min: 10, max: 4000, step: 10 },
+    slider: { min: 1, max: 4000, step: 1 },
     affects: "boid-structure",
   },
   perceptionRadius: {
     default: 20,
     group: "Simulation",
     label: "Perception",
-    control: "slider",
+    control: "none",  // hide for now, not implemented yet
     slider: { min: 5, max: 200, step: 1 },
   },
-  // interaction
+// interaction
   attractMouse: {
     default: false,
     group: "Interaction",
     label: "Attract Mouse",
-    control: "checkbox",
+    // control: "checkbox",
+    control: "none", // hide for now, not implemented yet
   },
   repelMouse: {
     default: false,
     group: "Interaction",
     label: "Repel Mouse",
-    control: "checkbox",
+    // control: "checkbox",
+    control: "none", // hide for now, not implemented yet
   },
   spacer_mouseCheckBoxes: {
     default: 0,
@@ -67,19 +69,22 @@ export const paramDefs = {
     default: 10,
     group: "Interaction",
     label: "Mouse Radius",
-    control: "slider",
+    // control: "slider",
+    control: "none", // hide for now, not implemented yet
     slider: { min: 1, max: 500, step: 1 },
   },
   spacer_mouseRadius: {
     default: 0,
-    control: "spacer",
+    // control: "spacer",
+    control: "none", // hide for now, not implemented yet
     group: "Interaction",
   },
   mouseAttractionWeight: {
     default: 5,
     group: "Interaction",
     label: "Mouse Attraction",
-    control: "slider",
+    // control: "slider",
+    control: "none", // hide for now, not implemented yet
     slider: { min: 0, max: 500, step: 0.1 },
   },
 
@@ -88,24 +93,25 @@ export const paramDefs = {
     default: 25,
     group: "Interaction",
     label: "Mouse Repel",
-    control: "slider",
+    // control: "slider",
+    control: "none", // hide for now, not implemented yet
     slider: { min: 0, max: 500, step: 0.1 },
   },
 
-  // flocking
+// flocking
   separationWeight: {
     default: 0.75,
     group: "Flocking",
     label: "Separation",
     control: "slider",
-    slider: { min: 0, max: 5, step: 0.01 },
+    slider: { min: 0, max: 3, step: 0.001 },
   },
   separationRadius: {
     default: 5,
     group: "Flocking",
     label: "Radius",
     control: "slider",
-    slider: { min: 0, max: 380, step: 1 },
+    slider: { min: 0, max: 380, step: 0.5 },
 },
   spacer_separation: {
     default: 0,
@@ -118,7 +124,7 @@ export const paramDefs = {
     group: "Flocking",
     label: "Alignment",
     control: "slider",
-    slider: { min: 0, max: 5, step: 0.01 },
+    slider: { min: 0, max: 3, step: 0.001 },
   },
 
   alignmentRadius: {
@@ -126,7 +132,7 @@ export const paramDefs = {
     group: "Flocking",
     label: "Radius",
     control: "slider",
-    slider: { min: 0, max: 380, step: 1 },
+    slider: { min: 0, max: 380, step: 0.5 },
   },
   spacer_alignment: {
     default: 0,
@@ -139,14 +145,14 @@ export const paramDefs = {
     group: "Flocking",
     label: "Cohesion",
     control: "slider",
-    slider: { min: 0, max: 5, step: 0.01 },
+    slider: { min: 0, max: 3, step: 0.001 },
   },
   cohesionRadius: {
     default: 320,
     group: "Flocking",
     label: "Radius",
     control: "slider",
-    slider: { min: 0, max: 380, step: 1 },
+    slider: { min: 0, max: 380, step: 0.5 },
   },
   spacer_cohesion: {
     default: 0,
@@ -159,11 +165,11 @@ export const paramDefs = {
     group: "Flocking",
   },
   maxForce: {
-    default: 900,
+    default: 10,
     group: "Flocking",
     label: "Max force",
     control: "slider",
-    slider: { min: 0, max: 8000, step: 1 },
+    slider: { min: 0, max: 50, step: 0.001 },
   },
   spacer_MaxForce: {
     default: 0,
@@ -171,11 +177,11 @@ export const paramDefs = {
     group: "Flocking",
   },
   flockDriftStrength: {
-    default: 30,
+    default: 3,
     group: "Flocking",
     label: "Drift strength",
     control: "slider",
-    slider: { min: 0, max: 100, step: 1 },
+    slider: { min: 0, max: 10, step: 0.001 },
   },
 
   spacer: {
@@ -200,28 +206,28 @@ export const paramDefs = {
   },
 
 
-  // movement
+// movement
   maxSpeed: {
-    default: 100,
+    default: 20,
     group: "Movement",
     label: "Max speed",
     control: "slider",
-    slider: { min: 1, max: 400, step: 1 },
+    slider: { min: 1, max: 50, step: 0.001 },
   },
   turnRate: {
-    default: 2,
+    default: 10,
     group: "Movement",
     label: "Turn rate",
     control: "slider",
-    slider: { min: 0.01, max: 5, step: 0.01 },
+    slider: { min: 0.01, max: 50, step: 0.1 },
   },
   
   maxWanderForce: {
-    default: 1200,
+    default: 20,
     group: "Movement",
     label: "Wander force",
     control: "slider",
-    slider: { min: 0, max: 2000, step: 10 },
+    slider: { min: 0, max: 50, step: 0.001 },
   },
   spacer_wander: {
     default: 0,
@@ -249,16 +255,16 @@ export const paramDefs = {
     slider: { min: 0, max: 400, step: 10 },
   },
   boundaryStrength: {
-    default: 15000,
+    default: 15,
     group: "Edge",
     label: "Repel Edge",
     control: "slider",
-    slider: { min: 0, max: 30000, step: 250 },
+    slider: { min: 0, max: 300, step: 0.1 },
   },
   
-  // looks
+// render
   size: {
-    default: 0.1,
+    default: 1,
     group: "Render",
     label: "Size",
     control: "slider",
@@ -313,7 +319,7 @@ export const paramDefs = {
   },
 
   theme: {
-    default: "dot" as keyof typeof Themes,
+    default: "cross" as keyof typeof Themes,
     group: "Render",
     label: "Theme",
     control: "dropdown",
