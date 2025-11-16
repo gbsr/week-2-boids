@@ -112,6 +112,7 @@ h1 {
 .param-group-title {
   flex: 1 1 auto;
   text-align: left;
+  color: #7fe29c;
 }
 
 .param-group-content {
