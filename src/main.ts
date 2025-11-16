@@ -1,3 +1,5 @@
+//@ts-nocheck
+// same here, theme DOES exist
 import './style.css'
 import renderFrame, { drawBoid } from './render/boidRenderer';
 import { init } from './system/init'

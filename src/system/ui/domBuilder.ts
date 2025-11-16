@@ -49,6 +49,9 @@ export function buildUI(container: HTMLElement) {
       content.classList.add("param-group-content");
       section.appendChild(content);
 
+      //start collapsed
+      section.classList.add("collapsed");
+      
       // toggle collapse on click
       header.addEventListener("click", () => {
         const collapsed = section.classList.toggle("collapsed");
