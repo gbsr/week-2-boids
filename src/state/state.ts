@@ -12,11 +12,10 @@ export const state = {
 
   params: createDefaultParams(),
 
-  mouse: {
+   mouse: {
     x: 0,
     y: 0,
-    mode: 'attract' as MouseMode,
-    radius: 100,
+    inside: false,
   },
   
   arrays: {

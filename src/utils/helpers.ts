@@ -97,3 +97,15 @@ export function hexToRgba(hex: string, alpha = 1): string {
   const b = bigint & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
+// Mouse handling
+export function getMousePos(
+  canvas: HTMLCanvasElement,
+  evt: MouseEvent | PointerEvent
+) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left, // CSS-space inside canvas
+    y: evt.clientY - rect.top,
+  };
+}

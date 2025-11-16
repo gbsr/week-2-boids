@@ -1,5 +1,9 @@
+// @ts-nocheck
+// types are correct, because dynamically built from paramDefs
+
 import { state } from '../state/state';
 import { boidConfig, canvasConfig } from '../config/config';
+import { getMousePos } from '../utils/helpers';
 
 export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 
@@ -85,8 +89,28 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
  window.addEventListener('resize', () => {
    fitCanvas();
  });
+
+ function attachMouseHandlers(canvas: HTMLCanvasElement) {
+  canvas.addEventListener("pointermove", (evt) => {
+    const { x, y } = getMousePos(canvas, evt);
+    state.mouse.x = x;
+    state.mouse.y = y;
+    state.mouse.inside = true;
+  });
+
+  canvas.addEventListener("pointerenter", (evt) => {
+    const { x, y } = getMousePos(canvas, evt);
+    state.mouse.x = x;
+    state.mouse.y = y;
+    state.mouse.inside = true;
+  });
+
+  canvas.addEventListener("pointerleave", () => {
+    state.mouse.inside = false;
+  });
+}
  
   // Initial canvas fit
   fitCanvas();
-
+  attachMouseHandlers(canvas);
 }

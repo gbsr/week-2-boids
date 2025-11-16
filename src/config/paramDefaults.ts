@@ -31,7 +31,7 @@ export type ParamDef<T = any> =
 export const paramDefs = {
 // simulation
   boidCount: {
-    default: 650,
+    default: 980,
     group: "Simulation",
     label: "Number of Boids",
     control: "slider",
@@ -51,34 +51,42 @@ export const paramDefs = {
     default: false,
     group: "Interaction",
     label: "Attract Mouse",
-    // control: "checkbox",
-    control: "none", // hide for now, not implemented yet
+    control: "checkbox",
   },
   repelMouse: {
     default: false,
     group: "Interaction",
     label: "Repel Mouse",
-    // control: "checkbox",
-    control: "none", // hide for now, not implemented yet
+    control: "checkbox",
+  },
+  showMouseRadius: {
+    default: false,
+    group: "Interaction",
+    label: "Show Mouse Radius",
+    control: "checkbox",
   },
   spacer_mouseCheckBoxes: {
     default: 0,
     group: "Interaction",
-    control: "none", // hide for now, not implemented yet
-    // control: "spacer",
+    control: "spacer",
   },
   mouseRadius: {
-    default: 10,
+    default: 250,
     group: "Interaction",
     label: "Mouse Radius",
-    // control: "slider",
-    control: "none", // hide for now, not implemented yet
+    control: "slider",
     slider: { min: 1, max: 500, step: 1 },
+  },
+  mouseInfluence: {
+    default: 0.25,
+    group: "Interaction",
+    label: "Mouse Influence",
+    control: "slider",
+    slider: { min: 0, max: 1, step: 0.01 },
   },
   spacer_mouseRadius: {
     default: 0,
-    // control: "spacer",
-    control: "none", // hide for now, not implemented yet
+    control: "spacer",
     group: "Interaction",
   },
   mouseAttractionWeight: {
@@ -86,7 +94,7 @@ export const paramDefs = {
     group: "Interaction",
     label: "Mouse Attraction",
     // control: "slider",
-    control: "none", // hide for now, not implemented yet
+    control: "none", // hide to user
     slider: { min: 0, max: 500, step: 0.1 },
   },
   mouseRepelWeight: {
@@ -94,7 +102,7 @@ export const paramDefs = {
     group: "Interaction",
     label: "Mouse Repel",
     // control: "slider",
-    control: "none", // hide for now, not implemented yet
+    control: "none", // hide to user
     slider: { min: 0, max: 500, step: 0.1 },
   },
 
@@ -302,7 +310,7 @@ export const paramDefs = {
     control: "checkbox",
   },
   theme: {
-    default: "cross" as keyof typeof Themes,
+    default: "dot" as keyof typeof Themes,
     group: "Render",
     label: "Theme",
     control: "dropdown",
