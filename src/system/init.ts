@@ -39,12 +39,39 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   state.needsTrailReset = true;
 
   function fitCanvas() {
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width  = Math.max(1, Math.floor(rect.width  * dpr));
-    canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+
+  const newW = Math.max(1, Math.floor(rect.width * dpr));
+  const newH = Math.max(1, Math.floor(rect.height * dpr));
+
+  const oldW = state.viewport.width;
+  const oldH = state.viewport.height;
+
+  // resize actual canvas
+  canvas.width = newW;
+  canvas.height = newH;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // scale positions to new canvas size
+  const sx = newW / oldW;
+  const sy = newH / oldH;
+
+  const posX = state.arrays.position.x;
+  const posY = state.arrays.position.y;
+
+  for (let i = 0; i < posX.length; i++) {
+    posX[i] *= sx;
+    posY[i] *= sy;
   }
+
+  // save new viewport size
+  state.viewport.width = newW;
+  state.viewport.height = newH;
+
+  // required: trail reset (otherwise artifacts)
+  state.needsTrailReset = true;
+}
 
   window.addEventListener('resize', () => {
     fitCanvas();

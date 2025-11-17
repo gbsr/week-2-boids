@@ -116,7 +116,7 @@ export default function update(
   // SPEED MAPPING (slider → px/sec)
   // ================================
   const canvasMinDim = Math.min(canvas.clientWidth, canvas.clientHeight);
-  const MAX_SPEED_SLIDER = 50;
+  const MAX_SPEED_SLIDER = 150;
   const speedNorm = clamp01((maxSpeed / MAX_SPEED_SLIDER) * 0.2);
   // At max slider, baseSpeed ≈ 0.5 * minDim px/sec
   // -> crosses the short side in about 2 seconds.
@@ -125,7 +125,7 @@ export default function update(
   // ================================
   // WANDER SCALE (0..50 → 0..baseSpeed)
   // ================================
-  const WANDER_MAX_SLIDER = 50;
+  const WANDER_MAX_SLIDER = 150;
   const wanderFactor = clamp01((maxWanderForce ?? 0) / WANDER_MAX_SLIDER);
   const wanderMagnitude = wanderFactor * baseSpeed;
 

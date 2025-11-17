@@ -83,7 +83,7 @@ export const Themes = {
 
   particle: {
     fill: '#ffffff',
-    stroke: '#ffffff',
+    stroke: '#ccc',
     lineWidth: 1,
     shape: 'circle' as const,
     size: 1.0

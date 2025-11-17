@@ -7,8 +7,9 @@ export type MouseMode = 'attract' | 'repel' | 'curious'
 export const state = {
 
   fsm: { state: 'idle' as FSMState },
-   needsBoidReinit: false,
+    needsBoidReinit: false,
     needsTrailReset: false,
+    needsFullCanvasReset: false,
 
   params: createDefaultParams(),
 

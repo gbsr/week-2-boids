@@ -33,6 +33,18 @@ function randomColorHSL(): string {
   return `hsl(${h}, ${s}%, ${l}%)`;
 }
 
+export function clearCanvas(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // if you have a trail canvas:
+  if (state.trailCanvas && state.trailCtx) {
+    state.trailCtx.clearRect(0, 0, state.trailCanvas.width, state.trailCanvas.height);
+  }
+
+  // force your renderer to “reset”
+  state.needsTrailReset = true;
+}
+
 /* ---------------- boid drawing ---------------- */
 type OutlineOpts = { color: string; alpha?: number; widthMul?: number };
 export function drawBoid(
@@ -188,6 +200,29 @@ export default function renderFrame(
 
   ensureMainCanvas(canvas, wCSS, hCSS);
   ensureOffscreen(wCSS, hCSS);
+
+    // Resettriggered by presets
+  if (state.needsFullCanvasReset) {
+    
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (trailCtx && trailCanvas) {
+      trailCtx.setTransform(1, 0, 0, 1, 0, 0);
+      trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+    }
+
+    // Reset all trail caches
+    lastX.length = 0;
+    lastY.length = 0;
+    distSinceStamp.length = 0;
+    stampX.length = 0;
+    stampY.length = 0;
+    trailColors.length = 0;
+    trailStrokeColors.length = 0;
+
+    state.needsFullCanvasReset = false;
+  }
 
   const posX = state.arrays.position.x;
   const posY = state.arrays.position.y;

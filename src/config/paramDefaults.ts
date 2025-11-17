@@ -35,7 +35,7 @@ export const paramDefs = {
     group: "Simulation",
     label: "Number of Boids",
     control: "slider",
-    slider: { min: 1, max: 4000, step: 1 },
+    slider: { min: 0, max: 1200, step: 1 },
     affects: "boid-structure",
   },
   perceptionRadius: {
@@ -210,14 +210,14 @@ export const paramDefs = {
     group: "Movement",
     label: "Max speed",
     control: "slider",
-    slider: { min: 1, max: 250, step: 0.001 },
+    slider: { min: 1, max: 500, step: 0.001 },
   },
   turnRate: {
     default: 10,
     group: "Movement",
     label: "Turn rate",
     control: "slider",
-    slider: { min: 0.01, max: 50, step: 0.1 },
+    slider: { min: 0.01, max: 150, step: 0.1 },
   },
   maxWanderForce: {
     default: 20,
