@@ -101,6 +101,6 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   // Initial canvas fit + mouse handlers
 
   fitCanvas();
-  loadDefaultPresetIntoState();
   attachMouseHandlers(canvas);
+  loadDefaultPresetIntoState();
 }

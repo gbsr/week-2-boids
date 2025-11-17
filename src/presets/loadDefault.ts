@@ -1,18 +1,31 @@
-//@ts-nocheck
-// types are correct, because dynamically built from paramDefs
+// @ts-nocheck
+import { state } from "../state/state";
+import factoryPresets from "./factoryPresets.json";
+
 export function loadDefaultPresetIntoState() {
   try {
-    const raw = localStorage.getItem("factoryPresets");
-    if (!raw) return;
-    const presets = JSON.parse(raw);
-    if (!presets.default) return;
+    const STORAGE_KEY = "boidPresets";
 
+    let presets: any;
+    const fromStorage = localStorage.getItem(STORAGE_KEY);
+
+    if (fromStorage) {
+      // use whatever is already there
+      presets = JSON.parse(fromStorage);
+    } else {
+      // first run: seed localStorage with factory presets
+      presets = factoryPresets;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(factoryPresets));
+    }
+
+    if (!presets || !presets.default) return;
+
+    // apply the "default" preset to state
     const saved = presets.default;
     for (const key of Object.keys(saved)) {
       (state.params as any)[key] = saved[key];
     }
 
-    // reset trails, boid arrays may need reseed
     state.needsTrailReset = true;
     state.needsBoidReinit = true;
   } catch (err) {
