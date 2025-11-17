@@ -454,7 +454,7 @@
     "debugSampleStride": 4,
     "maxDebugNeighbors": 200
   },
-  "Tri-print": {
+    "Tri-print":{
     "boidCount": 267,
     "perceptionRadius": 20,
     "attractMouse": false,
@@ -489,11 +489,11 @@
     "boundaryMargin": 70,
     "boundaryStrength": 238.3,
     "size": 1.67,
-    "trailLength": 0.97,
+    "trailLength": 0.94,
     "trailAlpha": 1,
     "trailStep": 0,
-    "shadowSize": 1.2,
-    "shadowOpacity": 0.3,
+    "shadowSize": 1.4,
+    "shadowOpacity": 0.23,
     "randomBoidColors": false,
     "randomTrailColors": false,
     "theme": "triangle",
