@@ -4,6 +4,7 @@
 import { state } from '../state/state';
 import { boidConfig, canvasConfig } from '../config/config';
 import { getMousePos } from '../utils/helpers';
+import { loadDefaultPresetIntoState } from '../presets/loadDefault'
 
 export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 
@@ -98,6 +99,8 @@ export function init(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   }
 
   // Initial canvas fit + mouse handlers
+
   fitCanvas();
+  loadDefaultPresetIntoState();
   attachMouseHandlers(canvas);
 }
